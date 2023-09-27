@@ -12,7 +12,7 @@ using RetailAdminHub.Persistence.Contexts;
 namespace RetailAdminHub.Persistence.Migrations
 {
     [DbContext(typeof(RetailAdminHubDbContext))]
-    [Migration("20230925132002_mig_1")]
+    [Migration("20230925183818_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />

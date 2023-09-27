@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\RetailAdminHub.Application\RetailAdminHub.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\RetailAdminHub.Infrastructure\RetailAdminHub.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\RetailAdminHub.Persistence\RetailAdminHub.Persistence.csproj" />
   </ItemGroup>
 

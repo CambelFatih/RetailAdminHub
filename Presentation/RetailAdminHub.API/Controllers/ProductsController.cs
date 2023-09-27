@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RetailAdminHub.Application.Abstractions;
+using RetailAdminHub.Application.Features.Command.Product.CreateProduct;
+using RetailAdminHub.Application.Features.Queries.Product.CreateProduct;
 using RetailAdminHub.Application.Repositories;
+using RetailAdminHub.Application.ViewModels.Products;
 using RetailAdminHub.Domain.Entities;
+using System.Net;
 
 namespace RetailAdminHub.API.Controllers
 {
@@ -10,32 +14,57 @@ namespace RetailAdminHub.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        readonly IMediator _mediator;
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IMediator mediator)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
+            _mediator = mediator;
         }
+
         [HttpGet]
-        public async Task Get()
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest) 
         {
-            //await _productWriteRepository.AddRangeAsync(new()
-            //{
-            //    new() {Id=Guid.NewGuid(), Name="Product 1", Price=200, CreatedDate= DateTime.UtcNow, Stock=4},
-            //    new() {Id=Guid.NewGuid(), Name="Product 2", Price=300, CreatedDate= DateTime.UtcNow, Stock=5},
-            //    new() {Id=Guid.NewGuid(), Name="Product 3", Price=400, CreatedDate= DateTime.UtcNow, Stock=1241},
-            //});
-            //await _productWriteRepository.SaveAsync();
-            Product p = await _productReadRepository.GetByIdAsync("27c4d0e2-0afc-4c48-af74-53f1713f3c03",false);
-            p.Name = "Mehmet";
-            await _productWriteRepository.SaveAsync();
+            GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
+            return Ok(response);
+           // return Ok(_productReadRepository.GetAll(false));
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            Product product= await _productReadRepository.GetByIdAsync(id);
+            return Ok(await _productReadRepository.GetByIdAsync(id, false));
+        }
+        [HttpPost]
+        public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
+        {
+            CreateProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
+            return StatusCode((int)HttpStatusCode.Created);
+            //await _productWriteRepository.AddAsync(new()
+            //{
+            //    Name = model.Name,
+            //    Price = model.Price,
+            //    Stock = model.Sock,
+            //});
+            //await _productWriteRepository.SaveAsync();
+        }
+        [HttpPut]
+        public async Task<IActionResult> Put(VM_Update_Product model)
+        {
+            Product product = await _productReadRepository.GetByIdAsync(model.Id);
+            product.Stock = model.Stock;
+            product.Name = model.Name;
+            product.Price = model.Price;
+            await _productWriteRepository.SaveAsync();
             return Ok(product);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _productWriteRepository.RemoveAsync(id);
+            await _productWriteRepository.SaveAsync();
+            return Ok();
         }
     }
 }
