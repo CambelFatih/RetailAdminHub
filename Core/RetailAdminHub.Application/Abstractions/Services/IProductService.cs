@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Features.Mappings
+namespace RetailAdminHub.Application.Abstractions.Services
 {
-    internal class CategoryMappingProfile
+    public interface IProductService
     {
+
     }
 }

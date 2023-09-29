@@ -1,4 +1,6 @@
-﻿using RetailAdminHub.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using RetailAdminHub.Application.Exceptions;
+using RetailAdminHub.Application.Repositories;
 using RetailAdminHub.Domain.Entities;
 using RetailAdminHub.Persistence.Contexts;
 using System;
@@ -16,14 +18,15 @@ namespace RetailAdminHub.Persistence.Repositories
         {
             _context = context;
         }
-        public async void Deneme()
+        public async Task<Product>? GetProductWithCategoriesAsync(string productId)
         {
-           Product product = new Product { Name = "product-1", Stock = 4, Price = 4.3f };
-           Category category1 = new Category { Name="category-1", Description="description-1"};
-           Category category2 = new Category { Name = "category-2", Description = "description-2" };
-           product.Categories.Add(category1);
-           product.Categories.Add(category2);
-           await _context.SaveChangesAsync();
+            if (!Guid.TryParse(productId, out Guid parsedId))
+            {
+                throw new InvalidGuidException();
+            }
+            return  await _context.Products
+                .Include(p => p.Categories)
+                .FirstOrDefaultAsync(p => p.Id == parsedId);
         }
     }
 }

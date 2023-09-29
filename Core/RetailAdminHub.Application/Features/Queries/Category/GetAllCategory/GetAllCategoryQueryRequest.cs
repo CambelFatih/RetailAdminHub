@@ -12,7 +12,5 @@ namespace RetailAdminHub.Application.Features.Queries.Category.GetAllCategory
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        // ManyToMany ilişkisi için bir koleksiyon
-        public object Products { get; set; }
     }
 }

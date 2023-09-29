@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Command\CategoryProduct\" />
-    <Folder Include="Features\Queries\CategoryProduct\" />
     <Folder Include="Schemas\" />
   </ItemGroup>
 

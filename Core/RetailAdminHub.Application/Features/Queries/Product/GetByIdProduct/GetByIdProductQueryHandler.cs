@@ -2,34 +2,35 @@
 using MediatR;
 using P = RetailAdminHub.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using RetailAdminHub.Application.DTOs.Product;
 using RetailAdminHub.Application.Exceptions;
+using AutoMapper;
 
 namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
 {
-    internal class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, GetByIdProductQueryResponse>
+    public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, GetByIdProductQueryResponse>
     {
-
-        readonly IProductReadRepository _productReadRepository;
-        public GetByIdProductQueryHandler(IProductReadRepository productReadRepository)
+        private readonly IMapper _mapper;
+        private readonly IProductReadRepository _productReadRepository;
+        public GetByIdProductQueryHandler(IProductReadRepository productReadRepository, IMapper mapper)
         {
             _productReadRepository = productReadRepository;
+            _mapper = mapper;
         }
 
         public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
-            P.Product product = await _productReadRepository.GetByIdAsync(request.Id, false);
+            P.Product product = await _productReadRepository.GetProductWithCategoriesAsync(request.Id);
 
             if (product == null)
             {
                 throw new NotFoundProductException();
             }
+            var productDto = _mapper.Map<ProductDTO>(product);
 
-            return new GetByIdProductQueryResponse
-            {
-                Name = product.Name,
-                Price = product.Price,
-                Stock = product.Stock
-            };
+            // Eğer gerekirse, ProductDTO'yu GetByIdProductQueryResponse'ye dönüştürün
+            return _mapper.Map<GetByIdProductQueryResponse>(productDto);
         }
+
     }
 }
