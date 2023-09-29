@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.ViewModels.Products
+namespace RetailAdminHub.Application.Features.Commands.Product.UpdateProduct
 {
-    public class VM_Update_Product
+    public class UpdateProductCommandRequest : IRequest<UpdateProductCommandResponse>
     {
         public string Id { get; set; }
         public string Name { get; set; }

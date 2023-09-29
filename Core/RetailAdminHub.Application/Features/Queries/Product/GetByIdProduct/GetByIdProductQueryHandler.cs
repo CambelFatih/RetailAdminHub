@@ -1,6 +1,8 @@
 ﻿using RetailAdminHub.Application.Repositories;
 using MediatR;
 using P = RetailAdminHub.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
+using RetailAdminHub.Application.Exceptions;
 
 namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
 {
@@ -16,7 +18,13 @@ namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
         public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
             P.Product product = await _productReadRepository.GetByIdAsync(request.Id, false);
-            return new()
+
+            if (product == null)
+            {
+                throw new NotFoundProductException();
+            }
+
+            return new GetByIdProductQueryResponse
             {
                 Name = product.Name,
                 Price = product.Price,

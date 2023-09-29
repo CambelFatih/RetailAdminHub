@@ -9,5 +9,6 @@ namespace RetailAdminHub.Application.Repositories
 {
     public interface IProductReadRepository : IReadRepository<Product>
     {
+        void Deneme();
     }
 }

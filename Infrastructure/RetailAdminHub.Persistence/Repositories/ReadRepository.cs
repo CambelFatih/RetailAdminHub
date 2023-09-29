@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RetailAdminHub.Application.Repositories;
 using RetailAdminHub.Domain.Entities.Common;
 using RetailAdminHub.Persistence.Contexts;
+using RetailAdminHub.Application.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,13 +45,20 @@ namespace RetailAdminHub.Persistence.Repositories
             return await query.FirstOrDefaultAsync(method);
         }
         public async Task<T> GetByIdAsync(string id, bool tracking = true)
-        //=> await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
-        //=> await Table.FindAsync(Guid.Parse(id));
         {
+            //=> await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+            //=> await Table.FindAsync(Guid.Parse(id));
+            if (!Guid.TryParse(id, out Guid parsedId))
+            {
+                throw new InvalidGuidException();
+            }
+
             var query = Table.AsQueryable();
-            if(!tracking)
+            if (!tracking)
                 query = query.AsNoTracking();
-            return await query.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+
+            return await query.FirstOrDefaultAsync(data => data.Id == parsedId);
         }
+
     }
 }

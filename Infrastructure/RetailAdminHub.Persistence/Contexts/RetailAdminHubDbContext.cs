@@ -31,11 +31,11 @@ namespace RetailAdminHub.Persistence.Contexts
                 {
                     case EntityState.Added:
                         data.Entity.CreatedDate = DateTime.UtcNow;
-                        // İlk oluşturma durumunda UpdatedDate'i de ayarlayabilirsiniz, tercihe bağlı.
+                        // You can also set UpdatedDate on initial creation, optional.
                         data.Entity.UpdatedDate = DateTime.UtcNow;
                         break;
                     case EntityState.Modified:
-                        // Değiştirilme durumunda sadece UpdatedDate güncellenmelidir.
+                        // In case of change, only UpdatedDate should be updated.
                         data.Entity.UpdatedDate = DateTime.UtcNow;
                         break;
                 }

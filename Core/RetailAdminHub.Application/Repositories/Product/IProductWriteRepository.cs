@@ -9,5 +9,6 @@ namespace RetailAdminHub.Application.Repositories
 {
     public interface IProductWriteRepository : IWriteRepository<Product>
     {
+       public Task AddProductWithCategories(Product product, List<Category> categories);
     }
 }

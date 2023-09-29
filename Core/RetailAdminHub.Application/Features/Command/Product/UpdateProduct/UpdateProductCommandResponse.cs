@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Features.Command.Product.CreateProduct
+namespace RetailAdminHub.Application.Features.Commands.Product.UpdateProduct
 {
-    public class CreateProductCommandResponse
+    public class UpdateProductCommandResponse
     {
     }
 }

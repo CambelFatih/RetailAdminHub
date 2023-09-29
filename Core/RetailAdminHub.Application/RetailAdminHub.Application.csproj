@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="FluentValidation" Version="11.7.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
@@ -9,6 +10,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RetailAdminHub.Domain\RetailAdminHub.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Command\CategoryProduct\" />
+    <Folder Include="Features\Queries\CategoryProduct\" />
+    <Folder Include="Schemas\" />
   </ItemGroup>
 
   <PropertyGroup>

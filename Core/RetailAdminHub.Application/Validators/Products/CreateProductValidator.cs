@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using RetailAdminHub.Application.ViewModels.Products;
+using RetailAdminHub.Application.Features.Command.Product.CreateProduct;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace RetailAdminHub.Application.Validators.Products
 {
-    public class CrateProductValidator : AbstractValidator<VM_Create_Product>
+    public class CreateProductValidator : AbstractValidator<CreateProductCommandRequest>
     {
-        public CrateProductValidator()
+        public CreateProductValidator()
         {
             RuleFor(p => p.Name)
                 .NotEmpty().NotNull().WithMessage("Product Name is required.")
                 .MaximumLength(150).MinimumLength(5).WithMessage("Product Name should be between 5 to 150 characters.");
 
-            RuleFor(p => p.Sock)
+            RuleFor(p => p.Stock)
                 .NotEmpty().NotNull().WithMessage("Stock value is required.")
                 .Must(s => s > 0).WithMessage("Stock value must be positive.");
 
