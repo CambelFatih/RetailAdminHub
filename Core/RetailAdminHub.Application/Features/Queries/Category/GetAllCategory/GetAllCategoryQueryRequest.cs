@@ -10,7 +10,5 @@ namespace RetailAdminHub.Application.Features.Queries.Category.GetAllCategory
 {
     public class GetAllCategoryQueryRequest : IRequest<GetAllCategoryQueryResponse>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
     }
 }

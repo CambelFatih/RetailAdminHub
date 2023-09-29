@@ -24,9 +24,18 @@ namespace RetailAdminHub.Persistence.Repositories
             {
                 throw new InvalidGuidException();
             }
-            return  await _context.Products
+            return await _context.Products
                 .Include(p => p.Categories)
                 .FirstOrDefaultAsync(p => p.Id == parsedId);
         }
+        public async Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size)
+        {
+            return await _context.Products
+                                 .Include(p => p.Categories)
+                                 .Skip(page * size)
+                                 .Take(size)
+                                 .ToListAsync();
+        }
+
     }
 }

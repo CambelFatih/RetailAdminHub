@@ -26,7 +26,7 @@ namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
             {
                 throw new NotFoundProductException();
             }
-            var productDto = _mapper.Map<ProductDTO>(product);
+            var productDto = _mapper.Map<ProductDetailDTO>(product);
 
             // Eğer gerekirse, ProductDTO'yu GetByIdProductQueryResponse'ye dönüştürün
             return _mapper.Map<GetByIdProductQueryResponse>(productDto);

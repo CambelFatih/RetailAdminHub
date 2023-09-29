@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetailAdminHub.Application.DTOs.Product;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory
 {
-    internal class GetByIdCategoryQueryResponse
+    public class GetByIdCategoryQueryResponse
     {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public ICollection<ProductDTO> Products { get; set; }  
     }
 }

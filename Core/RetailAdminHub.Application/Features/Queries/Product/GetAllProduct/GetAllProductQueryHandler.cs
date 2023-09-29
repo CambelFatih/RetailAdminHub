@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
+using RetailAdminHub.Application.DTOs.Product;
+using RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
 using RetailAdminHub.Application.Repositories;
 
 namespace RetailAdminHub.Application.Features.Queries.Product.CreateProduct
@@ -9,32 +12,25 @@ namespace RetailAdminHub.Application.Features.Queries.Product.CreateProduct
     public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>
     {
         readonly IProductReadRepository _productReadRepository;
+        private readonly IMapper _mapper;
 
-        public GetAllProductQueryHandler(IProductReadRepository productReadRepository)
+        public GetAllProductQueryHandler(IProductReadRepository productReadRepository, IMapper mapper)
         {
             _productReadRepository = productReadRepository;
+            _mapper = mapper;
         }
 
-        async Task<GetAllProductQueryResponse> IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>.Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
+         async Task<GetAllProductQueryResponse> IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>.Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
             var totalProductCount = _productReadRepository.GetAll(false).Count();
 
-            var products = _productReadRepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size)
-                .Select(p => new
-                {
-                    p.Id,
-                    p.Name,
-                    p.Stock,
-                    p.Price,
-                    p.CreatedDate,
-                    p.UpdatedDate,
-                }).ToList();
+            var products = await _productReadRepository.GetProductsPagedWithCategoriesAsync(request.Page, request.Size);
 
-            // Create a new GetAllProductQueryResponse instance with property setters
+            var productDTOs = _mapper.Map<List<ProductDetailDTO>>(products);
             var response = new GetAllProductQueryResponse
             {
-                Products = products,
-                TotalProductCount = totalProductCount
+                TotalProductCount = totalProductCount,
+                Products = productDTOs
             };
 
             return await Task.FromResult(response);

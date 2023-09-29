@@ -9,6 +9,7 @@ namespace RetailAdminHub.Application.Repositories
 {
     public interface ICategoryReadRepository : IReadRepository<Category>
     {
+        public Task<Category> GetCategoryWithProductsAsync(string categoryId);
     }
 }
  
