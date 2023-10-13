@@ -2,13 +2,12 @@
 using RetailAdminHub.Domain.Entities;
 using RetailAdminHub.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RetailAdminHub.Application.Repositories;
-using RetailAdminHub.Persistence.Repositories;
+using RetailAdminHub.Persistence.Repositories.ProductRepository;
+using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Persistence.Repositories.CategoryRepository;
+using RetailAdminHub.Application.Repositories.CategoryRepository;
+using RetailAdminHub.Application.Repositories.AccountRepository;
+using RetailAdminHub.Persistence.Repositories.AccountRepository;
 
 namespace RetailAdminHub.Persistence
 {
@@ -21,6 +20,7 @@ namespace RetailAdminHub.Persistence
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();               
             services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
             services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
+            services.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
         }
     }
 }

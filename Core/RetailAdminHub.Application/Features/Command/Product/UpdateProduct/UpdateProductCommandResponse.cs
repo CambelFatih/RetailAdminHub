@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace RetailAdminHub.Application.Features.Command.Product.UpdateProduct;
 
-namespace RetailAdminHub.Application.Features.Commands.Product.UpdateProduct
+public class UpdateProductCommandResponse
 {
-    public class UpdateProductCommandResponse
-    {
-    }
 }
+

@@ -1,17 +1,13 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RetailAdminHub.Domain.Response;
 
-namespace RetailAdminHub.Application.Features.Commands.Product.UpdateProduct
+namespace RetailAdminHub.Application.Features.Command.Product.UpdateProduct;
+
+public class UpdateProductCommandRequest : IRequest<ApiResponse<UpdateProductCommandResponse>>
 {
-    public class UpdateProductCommandRequest : IRequest<UpdateProductCommandResponse>
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public int Stock { get; set; }
-        public float Price { get; set; }
-    }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public int Stock { get; set; }
+    public float Price { get; set; }
 }
+

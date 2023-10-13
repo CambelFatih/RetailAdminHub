@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Repositories
+namespace RetailAdminHub.Application.Repositories.ProductRepository
 {
     public interface IProductWriteRepository : IWriteRepository<Product>
     {
-       public Task AddProductWithCategories(Product product, List<Category> categories);
+        public Task AddProductWithCategories(Product product, List<Category> categories);
     }
 }

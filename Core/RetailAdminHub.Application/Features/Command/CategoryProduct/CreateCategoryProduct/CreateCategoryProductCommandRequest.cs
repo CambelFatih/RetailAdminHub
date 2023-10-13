@@ -1,13 +1,9 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RetailAdminHub.Domain.Response;
 
 namespace RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct
 {
-    public class CreateCategoryProductCommandRequest : IRequest<CreateCategoryProductCommandResponse>
+    public class CreateCategoryProductCommandRequest : IRequest<ApiResponse<CreateCategoryProductCommandResponse>>
     {
         public string ProductName { get; set; }
         public int Stock { get; set; }

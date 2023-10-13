@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Repositories
+namespace RetailAdminHub.Application.Repositories.ProductRepository
 {
     public interface IProductReadRepository : IReadRepository<Product>
     {
-        public  Task<Product>? GetProductWithCategoriesAsync(string productId);
-        public  Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size);
+        public Task<Product>? GetProductWithCategoriesAsync(string productId);
+        public Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size);
     }
 }

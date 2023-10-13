@@ -1,32 +1,37 @@
 ﻿using AutoMapper;
 using RetailAdminHub.Application.DTOs.Product;
+using RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
 using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
-using RetailAdminHub.Application.Features.Queries.Product.CreateProduct;
+using RetailAdminHub.Application.Features.Queries.Product.GetAllProduct;
 using RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
 using RetailAdminHub.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Features.Mappings
+namespace RetailAdminHub.Application.Features.Mappings;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<RetailAdminHub.Domain.Entities.Product, ProductDetailDTO>()
-                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories));
-            CreateMap<RetailAdminHub.Domain.Entities.Category, CategoryDTO>();
-            CreateMap<ProductDetailDTO, GetByIdProductQueryResponse>();
-            CreateMap<List<ProductDetailDTO>, GetAllProductQueryResponse>()
-    .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src));
-            CreateMap<RetailAdminHub.Domain.Entities.Product, ProductDTO>()
-    .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories.Select(c => new SummaryCategoryDTO { Id = c.Id })));
-            CreateMap<Category, CategoryDetailDTO>();
-            CreateMap<CategoryDetailDTO, GetByIdCategoryQueryResponse>();
-        }
-    }
+        //for GetByIdProduct Query mapping
+        CreateMap<Product, ProductDetailDTO>()
+            .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories));
+        CreateMap<Category, CategoryDTO>();
+        CreateMap<ProductDetailDTO, GetByIdProductQueryResponse>();
 
+        //for GetAllProduct Query mapping
+        CreateMap<List<ProductDetailDTO>, GetAllProductQueryResponse>()
+.ForMember(dest => dest.Products, opt => opt.MapFrom(src => src));
+
+        //for GetByIdCategory Query mapping
+        CreateMap<Product, ProductDTO>()
+.ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories.Select(c => new SummaryCategoryDTO { Id = c.Id })));
+        CreateMap<Category, CategoryDetailDTO>();
+        CreateMap<CategoryDetailDTO, GetByIdCategoryQueryResponse>();
+
+        //for GetAllCatergory Query mapping
+        CreateMap<List<CategoryDetailDTO>, GetAllCategoryQueryResponse>()
+.ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src));
+        CreateMap<Category, GetAllCategoryQueryResponse>();
+    }
 }
+

@@ -1,15 +1,9 @@
 ﻿using RetailAdminHub.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Repositories
+namespace RetailAdminHub.Application.Repositories.CategoryRepository
 {
     public interface ICategoryReadRepository : IReadRepository<Category>
     {
         public Task<Category> GetCategoryWithProductsAsync(string categoryId);
     }
 }
- 

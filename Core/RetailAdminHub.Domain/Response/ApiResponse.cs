@@ -35,7 +35,7 @@ namespace RetailAdminHub.Domain.Response
     {
         public bool Success { get; set; }
         public string Message { get; set; }
-        public T Response { get; set; }
+        public T? Response { get; set; }
 
         public ApiResponse(bool isSuccess)
         {
@@ -49,9 +49,9 @@ namespace RetailAdminHub.Domain.Response
             Response = data;
             Message = "Success";
         }
-        public ApiResponse(string message)
+        public ApiResponse(string message, bool success)
         {
-            Success = false;
+            Success = success;
             Response = default;
             Message = message;
         }

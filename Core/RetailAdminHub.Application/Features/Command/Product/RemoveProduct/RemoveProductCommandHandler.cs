@@ -1,27 +1,27 @@
-﻿using RetailAdminHub.Application.Repositories;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Domain.Response;
 
-namespace RetailAdminHub.Application.Features.Commands.Product.RemoveProduct
+namespace RetailAdminHub.Application.Features.Command.Product.RemoveProduct
 {
-    public class RemoveProductCommandHandler : IRequestHandler<RemoveProductCommandRequest, RemoveProductCommandResponse>
+    public class RemoveProductCommandHandler : IRequestHandler<RemoveProductCommandRequest, ApiResponse<RemoveProductCommandResponse>>
     {
-        readonly IProductWriteRepository _productWriteRepository;
+        readonly IProductWriteRepository productWriteRepository;
 
         public RemoveProductCommandHandler(IProductWriteRepository productWriteRepository)
         {
-            _productWriteRepository = productWriteRepository;
+            this.productWriteRepository = productWriteRepository;
         }
 
-        public async Task<RemoveProductCommandResponse> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<RemoveProductCommandResponse>> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
         {
-            await _productWriteRepository.RemoveAsync(request.Id);
-            await _productWriteRepository.SaveAsync();
-            return new();
+            var result = await productWriteRepository.SoftDeleteById(request.ProductId, cancellationToken);
+            return new ApiResponse<RemoveProductCommandResponse>(result);
         }
     }
 }

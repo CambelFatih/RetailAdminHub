@@ -1,34 +1,38 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Domain.Response;
+
 
 namespace RetailAdminHub.Application.Features.Command.Product.CreateProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, CreateProductCommandResponse>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, ApiResponse<CreateProductCommandResponse>>
     {
 
-        private readonly IProductWriteRepository _productWriteRepository;
+        private readonly IProductWriteRepository productWriteRepository;
 
         public CreateProductCommandHandler(IProductWriteRepository productWriteRepository)
         {
-            _productWriteRepository = productWriteRepository;
+            this.productWriteRepository = productWriteRepository;
         }
 
-        public async Task<CreateProductCommandResponse> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
-        {
-            await _productWriteRepository.AddAsync(new()
+        public async Task<ApiResponse<CreateProductCommandResponse>> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
+        {          
+            try
             {
-                Name = request.Name,
-                Price = request.Price,
-                Stock = request.Stock,
-            });
-            await _productWriteRepository.SaveAsync();
-            return new();
+                await productWriteRepository.AddAsync(new()
+                {
+                    Name = request.Name,
+                    Price = request.Price,
+                    Stock = request.Stock,
+                    IsActive = true,
+                });
+                await productWriteRepository.SaveAsync();
+               return new ApiResponse<CreateProductCommandResponse>(true);
+            }
+            catch (Exception e)
+            {
+                return new ApiResponse<CreateProductCommandResponse>(success:false,message:e.Message);
+            }        
         }
     }
 }

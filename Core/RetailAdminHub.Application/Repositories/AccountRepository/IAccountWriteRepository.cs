@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Repositories
+namespace RetailAdminHub.Application.Repositories.AccountRepository;
+
+public interface IAccountWriteRepository : IWriteRepository<Account>
 {
-    public interface ICategoryWriteRepository : IWriteRepository<Category>
-    {
-    }
 }
+

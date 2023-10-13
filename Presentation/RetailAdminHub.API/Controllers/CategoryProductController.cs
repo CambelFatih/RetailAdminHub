@@ -1,24 +1,23 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct;
+using RetailAdminHub.Domain.Response;
 
-namespace RetailAdminHub.API.Controllers
+namespace RetailAdminHub.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CategoryProductController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CategoryProductController : ControllerBase
+    readonly private IMediator mediator;
+    public CategoryProductController(IMediator mediator)
     {
-        readonly private IMediator _mediator;
-        public CategoryProductController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-        [HttpPost("deneme")]
-        public async Task<IActionResult> Post(CreateCategoryProductCommandRequest createCategoryProductCommandRequest)
-        {
-            CreateCategoryProductCommandResponse response = await _mediator.Send(createCategoryProductCommandRequest);
-            return Ok(response);
-            // return Ok(_productReadRepository.GetAll(false));
-        }
+        this.mediator = mediator;
+    }
+    [HttpPost("deneme")]
+    public async Task<ApiResponse<CreateCategoryProductCommandResponse>> Post(CreateCategoryProductCommandRequest createCategoryProductCommandRequest)
+    {
+        return await mediator.Send(createCategoryProductCommandRequest);
     }
 }
+

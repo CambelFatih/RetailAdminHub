@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RetailAdminHub.Application.Features.Queries.CategoryProduct
 {
-    internal class GetByIdCategoryProductQueryRequest 
+    public class GetByIdCategoryProductQueryRequest 
     {
     }
 }

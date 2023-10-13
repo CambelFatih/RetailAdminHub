@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Text.Json;
 
-namespace ETicaretAPI.API.Extensions
+namespace RetailAdminHub.API.Extensions
 {
     static public class ConfigureExceptionHandlerExtension
     {
@@ -23,8 +23,8 @@ namespace ETicaretAPI.API.Extensions
 
                         await context.Response.WriteAsync(JsonSerializer.Serialize(new
                         {
-                            StatusCode = context.Response.StatusCode,
-                            Message = contextFeature.Error.Message,
+                            context.Response.StatusCode,
+                            contextFeature.Error.Message,
                             Title = "Hata alındı!"
                         })); ;
                     }

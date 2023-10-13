@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Features.Queries.Product.CreateProduct
+namespace RetailAdminHub.Application.Features.Queries.Product.GetAllProduct
 {
     public class GetAllProductQueryResponse
     {

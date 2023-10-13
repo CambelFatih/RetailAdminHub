@@ -1,9 +1,14 @@
-using ETicaretAPI.API.Extensions;
+using FluentValidation;
 using FluentValidation.AspNetCore;
+using RetailAdminHub.API.Extensions;
+using RetailAdminHub.API.Extensions.Middleware;
 using RetailAdminHub.Application;
+using RetailAdminHub.Application.Validators;
 using RetailAdminHub.Application.Validators.Products;
+using RetailAdminHub.Domain.Logger;
 using RetailAdminHub.Infrastructure.Filters;
 using RetailAdminHub.Persistence;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +34,11 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilter>();
 })
-    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
-    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+.ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<BaseValidator>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -44,11 +50,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
+//app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<HeartBeatMiddleware>();
+Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
+{
+    Log.Information("-------------Request-Begin------------");
+    Log.Information(requestProfilerModel.Request);
+    Log.Information(Environment.NewLine);
+    Log.Information(requestProfilerModel.Response);
+    Log.Information("-------------Request-End------------");
+};
+app.UseMiddleware<RequestLoggingMiddleware>(requestResponseHandler);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseMiddleware<UserContextMiddleware>();
 app.MapControllers();
 
 app.Run();

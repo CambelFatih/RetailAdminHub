@@ -1,14 +1,11 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RetailAdminHub.Domain.Response;
 
-namespace RetailAdminHub.Application.Features.Commands.Product.RemoveProduct
+
+namespace RetailAdminHub.Application.Features.Command.Product.RemoveProduct
 {
-    public class RemoveProductCommandRequest : IRequest<RemoveProductCommandResponse>
+    public class RemoveProductCommandRequest : IRequest<ApiResponse<RemoveProductCommandResponse>>
     {
-        public string Id { get; set; }
+        public string ProductId { get; set; }
     }
 }

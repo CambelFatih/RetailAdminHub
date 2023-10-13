@@ -25,9 +25,16 @@ namespace RetailAdminHub.Application.DTOs.Product
         public DateTime UpdatedDate { get; set; }
         public ICollection<SummaryCategoryDTO> Categories { get; set; }
     }
+
+    public class SummaryProductDTO
+    {
+        public Guid Id { get; set; }
+    }
     public class SummaryCategoryDTO
     {
         public Guid Id { get; set; }
     }
-
 }
+
+
+
