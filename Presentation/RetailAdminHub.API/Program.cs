@@ -1,10 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using RetailAdminHub.API.Extensions;
 using RetailAdminHub.API.Extensions.Middleware;
 using RetailAdminHub.Application;
 using RetailAdminHub.Application.Validators;
-using RetailAdminHub.Application.Validators.Products;
 using RetailAdminHub.Domain.Logger;
 using RetailAdminHub.Infrastructure.Filters;
 using RetailAdminHub.Persistence;
@@ -12,10 +10,17 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(config).CreateLogger();
+Log.Information("App server is starting.");
+
+
 // Add services to the container.
 builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 builder.Services.AddCors(options =>
 {
@@ -27,7 +32,6 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
-
 //builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.WithOrigins("http://localhost/4200", "https://localhost/4200").AllowAnyHeader().AllowAnyMethod()));
 
 builder.Services.AddControllers(options =>

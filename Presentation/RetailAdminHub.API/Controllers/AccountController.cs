@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Account.CreateAccount;
 using RetailAdminHub.Application.Features.Command.Account.RemoveAccount;
+using RetailAdminHub.Application.Features.Queries.Account.GetAllAccount;
 using RetailAdminHub.Domain.Response;
 
 namespace RetailAdminHub.API.Controllers;
@@ -16,6 +17,12 @@ public class AccountController : ControllerBase
     public AccountController(IMediator mediator)
     {
         this.mediator = mediator;
+    }
+    [HttpGet]
+    public async Task<ApiResponse<List<GetAllAccountQueryResponse>>> Get()
+    {
+        var getAllAccountQueryRequest = new GetAllAccountQueryRequest();
+        return await mediator.Send(getAllAccountQueryRequest);
     }
 
     [HttpPost]

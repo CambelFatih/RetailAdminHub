@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Features.Queries.Category.GetAllCategory
+namespace RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
+
+public class GetAllCategoryQueryRequest : IRequest<ApiResponse<GetAllCategoryQueryResponse>>
 {
-    public class GetAllCategoryQueryRequest : IRequest<ApiResponse<GetAllCategoryQueryResponse>>
-    {
-    }
 }
+

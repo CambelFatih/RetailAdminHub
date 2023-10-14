@@ -10,26 +10,26 @@ namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
 {
     public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, ApiResponse<GetByIdProductQueryResponse>>
     {
-        private readonly IMapper _mapper;
-        private readonly IProductReadRepository _productReadRepository;
+        private readonly IMapper mapper;
+        private readonly IProductReadRepository productReadRepository;
         public GetByIdProductQueryHandler(IProductReadRepository productReadRepository, IMapper mapper)
         {
-            _productReadRepository = productReadRepository;
-            _mapper = mapper;
+            this.productReadRepository = productReadRepository;
+            this.mapper = mapper;
         }
 
         public async Task<ApiResponse<GetByIdProductQueryResponse>> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
-            P.Product product = await _productReadRepository.GetProductWithCategoriesAsync(request.Id);
+            P.Product product = await productReadRepository.GetProductWithCategoriesAsync(request.Id);
 
             if (product == null)
             {
                 throw new NotFoundProductException();
             }
-            var productDto = _mapper.Map<ProductDetailDTO>(product);
+            var productDto = mapper.Map<ProductDetailDTO>(product);
 
             // Eğer gerekirse, ProductDTO'yu GetByIdProductQueryResponse'ye dönüştürün
-            return _mapper.Map<ApiResponse<GetByIdProductQueryResponse>>(productDto);
+            return mapper.Map<ApiResponse<GetByIdProductQueryResponse>>(productDto);
         }
     }
 }

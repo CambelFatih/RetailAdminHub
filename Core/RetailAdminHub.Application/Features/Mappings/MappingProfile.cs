@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RetailAdminHub.Application.DTOs.Product;
+using RetailAdminHub.Application.Features.Queries.Account.GetAllAccount;
 using RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
 using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
 using RetailAdminHub.Application.Features.Queries.Product.GetAllProduct;
@@ -32,6 +33,8 @@ public class MappingProfile : Profile
         CreateMap<List<CategoryDetailDTO>, GetAllCategoryQueryResponse>()
 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src));
         CreateMap<Category, GetAllCategoryQueryResponse>();
+
+        CreateMap<Account, GetAllAccountQueryResponse>();
     }
 }
 

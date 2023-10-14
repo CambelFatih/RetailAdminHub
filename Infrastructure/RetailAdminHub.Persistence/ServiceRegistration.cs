@@ -16,11 +16,15 @@ namespace RetailAdminHub.Persistence
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<RetailAdminHubDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
-            services.AddScoped<IProductReadRepository, ProductReadRepository>();
-            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();               
+            
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();             
             services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
+            services.AddScoped<IAccountReadRepository, AccountReadRepository>();
+
+            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
             services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
             services.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
+
         }
     }
 }

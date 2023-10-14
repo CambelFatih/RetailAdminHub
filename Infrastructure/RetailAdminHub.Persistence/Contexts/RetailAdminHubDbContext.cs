@@ -23,6 +23,7 @@ public class RetailAdminHubDbContext : DbContext
                 case EntityState.Added:
                     data.Entity.InsertDate = DateTime.UtcNow;
                     data.Entity.InsertUserId = CurrentUserId;
+                    data.Entity.IsActive = true;
                     break;
                 case EntityState.Modified:
                     data.Entity.UpdateDate = DateTime.UtcNow;

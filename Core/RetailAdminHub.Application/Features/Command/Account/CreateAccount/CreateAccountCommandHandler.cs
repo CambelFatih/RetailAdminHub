@@ -20,11 +20,13 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandR
         int uniqueInt = rnd.Next();
         await accountWriteRepository.AddAsync(new()
         {
-            Name = request.Name,
             AccountNumber = uniqueInt,
-            Balance = request.Balance,
-            OpenDate = DateTime.UtcNow,
-            IsActive = true,
+            Email = request.Email,
+            Password = request.Password,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Role = "admin"
+           
         });
         await accountWriteRepository.SaveAsync();
         return new ApiResponse<CreateAccountCommandResponse>(true);

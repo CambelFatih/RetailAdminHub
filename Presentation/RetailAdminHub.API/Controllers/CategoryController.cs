@@ -18,8 +18,9 @@ public class CategoryController : ControllerBase
         this.mediator = mediator;
     }
     [HttpGet]
-    public async Task<ApiResponse<GetAllCategoryQueryResponse>> Get([FromQuery] GetAllCategoryQueryRequest getAllCategoryQueryRequest)
+    public async Task<ApiResponse<GetAllCategoryQueryResponse>> Get()
     {
+        GetAllCategoryQueryRequest getAllCategoryQueryRequest = new GetAllCategoryQueryRequest();
         return await mediator.Send(getAllCategoryQueryRequest);
     }
     [HttpPost]
