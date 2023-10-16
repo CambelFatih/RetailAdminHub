@@ -11,6 +11,6 @@ namespace RetailAdminHub.Application.Features.Command.Account.RemoveAccount;
 
 public class RemoveAccountCommandRequest : IRequest<ApiResponse<RemoveAccountCommandResponse>>
 {
-    public string AccountId { get; set; }
+    public string Id { get; set; }
 }
 

@@ -15,8 +15,7 @@ namespace RetailAdminHub.Application.Repositories
         bool RemoveRange(List<T> datas);
         Task<bool> RemoveAsync(string id);
         bool Update(T model);
-        Task<int> SaveAsync();
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
         public Task<bool> SoftDeleteById(string entityId, CancellationToken cancellationToken);
     }
 }
- 

@@ -1,8 +1,12 @@
 ﻿
 
-namespace RetailAdminHub.Application.Features.Command.Category.RemoveCategory
+using MediatR;
+using RetailAdminHub.Domain.Response;
+
+namespace RetailAdminHub.Application.Features.Command.Category.RemoveCategory;
+
+public class RemoveCategoryCommandRequest : IRequest<ApiResponse<RemoveCategoryCommandResponse>>
 {
-    internal class RemoveCategoryCommandRequest
-    {
-    }
+    public string Id { get; set; }
 }
+

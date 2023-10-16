@@ -28,7 +28,7 @@ public class ErrorHandlerMiddleware
                 $"Method={context.Request.Method} || " +
                 $"Exception={ex.Message}"
             );
-            ApiResponse response = new ApiResponse("Internal Server Error");
+            ApiResponse response = new ApiResponse(ex.Message);//"Internal Server Error"
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));

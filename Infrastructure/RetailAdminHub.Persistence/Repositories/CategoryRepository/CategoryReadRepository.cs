@@ -12,7 +12,7 @@ public class CategoryReadRepository : ReadRepository<Category>, ICategoryReadRep
     {
         this.context = context;
     }
-    public async Task<Category> GetCategoryWithProductsAsync(string categoryId)
+    public async Task<Category> GetCategoryWithProductsAsync(string categoryId, CancellationToken cancellationToken)
     {
         if (!Guid.TryParse(categoryId, out Guid parsedId))
         {
@@ -21,7 +21,7 @@ public class CategoryReadRepository : ReadRepository<Category>, ICategoryReadRep
         return await context.Categories
             .Where(x => x.IsActive)
             .Include(c => c.Products) // Ürünleri dahil ediyoruz.
-            .FirstOrDefaultAsync(c => c.Id == parsedId);
+            .FirstOrDefaultAsync(c => c.Id == parsedId, cancellationToken);
     }
 }
 

@@ -1,7 +1,7 @@
 ﻿
-namespace RetailAdminHub.Application.Features.Command.Category.CreateCategory
+namespace RetailAdminHub.Application.Features.Command.Category.CreateCategory;
+
+public class CreateCategoryCommandResponse
 {
-    public class CreateCategoryCommandResponse
-    {
-    }
 }
+

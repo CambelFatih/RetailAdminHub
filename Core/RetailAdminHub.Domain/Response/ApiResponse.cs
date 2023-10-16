@@ -49,7 +49,7 @@ namespace RetailAdminHub.Domain.Response
             Response = data;
             Message = "Success";
         }
-        public ApiResponse(string message, bool success)
+        public ApiResponse(string message, bool success=false)
         {
             Success = success;
             Response = default;

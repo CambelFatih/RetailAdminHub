@@ -22,7 +22,7 @@ public class RemoveAccountCommandHandler : IRequestHandler<RemoveAccountCommandR
 
     public async Task<ApiResponse<RemoveAccountCommandResponse>> Handle(RemoveAccountCommandRequest request, CancellationToken cancellationToken)
     {
-        var result = await accountWriteRepository.SoftDeleteById(request.AccountId, cancellationToken);
+        var result = await accountWriteRepository.SoftDeleteById(request.Id, cancellationToken);
         return new ApiResponse<RemoveAccountCommandResponse>(result);
     }
 }

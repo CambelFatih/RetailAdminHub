@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using RetailAdminHub.Application.DTOs.Product;
+using Microsoft.EntityFrameworkCore;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Domain.Response;
 
 namespace RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
 
-public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoryQueryRequest, ApiResponse<GetAllCategoryQueryResponse>>
+public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoryQueryRequest, ApiResponse<List<GetAllCategoryQueryResponse>>>
 {
     private readonly ICategoryReadRepository categoryReadRepository;
     private readonly IMapper mapper;
@@ -17,17 +17,10 @@ public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoryQueryReq
         this.mapper = mapper;
     }
 
-        async Task<ApiResponse<GetAllCategoryQueryResponse>> IRequestHandler<GetAllCategoryQueryRequest, ApiResponse<GetAllCategoryQueryResponse>>.Handle(GetAllCategoryQueryRequest request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<GetAllCategoryQueryResponse>>> Handle(GetAllCategoryQueryRequest request, CancellationToken cancellationToken)
     {
-        var categories = categoryReadRepository.GetAll(false).Where(x => x.IsActive).ToList();
-        var categoriesDTOs = mapper.Map<List<CategoryDetailDTO>>(categories);
-
-        var response = new GetAllCategoryQueryResponse
-        {
-            Categories = categoriesDTOs
-        };
-
-        return  new ApiResponse<GetAllCategoryQueryResponse>(response);
+        var categories = await categoryReadRepository.GetAll(false).Include(c => c.Products).Where(x => x.IsActive).ToListAsync(cancellationToken);
+        var mapped = mapper.Map<List<GetAllCategoryQueryResponse>>(categories);
+        return new ApiResponse<List<GetAllCategoryQueryResponse>>(mapped);
     }
 }
-

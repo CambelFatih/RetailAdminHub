@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct;
 using RetailAdminHub.Application.Features.Command.Product.CreateProduct;
 using RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
 using RetailAdminHub.Application.Features.Command.Product.UpdateProduct;

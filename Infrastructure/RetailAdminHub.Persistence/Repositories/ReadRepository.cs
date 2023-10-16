@@ -44,20 +44,15 @@ public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
             query = Table.AsNoTracking();
         return await query.FirstOrDefaultAsync(method);
     }
-    public async Task<T> GetByIdAsync(string id, bool tracking = true)
+    public async Task<T> GetByIdAsync(string id, CancellationToken cancellationToken = default, bool tracking = true)
     {
-        //=> await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
-        //=> await Table.FindAsync(Guid.Parse(id));
-        if (!Guid.TryParse(id, out Guid parsedId))
-        {
-            throw new InvalidGuidException();
-        }
+        if (!Guid.TryParse(id, out Guid parsedId))      
+            throw new InvalidGuidException();      
 
         var query = Table.AsQueryable();
         if (!tracking)
             query = query.AsNoTracking();
-
-        return await query.FirstOrDefaultAsync(data => data.Id == parsedId);
+        return await query.FirstOrDefaultAsync(data => data.Id == parsedId, cancellationToken);
     }
 
 }

@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using RetailAdminHub.Application.DTOs.Product;
-using RetailAdminHub.Application.Exceptions;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Domain.Response;
 
@@ -16,17 +14,15 @@ public class GetByIdCategoryQueryHandler : IRequestHandler<GetByIdCategoryQueryR
         this.categoryReadRepository = categoryReadRepository;
         this.mapper = mapper;
     }
-    async Task<ApiResponse<GetByIdCategoryQueryResponse>> IRequestHandler<GetByIdCategoryQueryRequest, ApiResponse<GetByIdCategoryQueryResponse>>.Handle(GetByIdCategoryQueryRequest request, CancellationToken cancellationToken)
+
+    public async Task<ApiResponse<GetByIdCategoryQueryResponse>> Handle(GetByIdCategoryQueryRequest request, CancellationToken cancellationToken)
     {
-        var category = await categoryReadRepository.GetCategoryWithProductsAsync(request.Id);
-
-        if (category == null)
-        {
-            return new ApiResponse <GetByIdCategoryQueryResponse> ("Record not found", false);
-        }
-
-        var categoryDto = mapper.Map<CategoryDetailDTO>(category);
-        return mapper.Map<ApiResponse<GetByIdCategoryQueryResponse>>(categoryDto);
+        var category = await categoryReadRepository.GetCategoryWithProductsAsync(request.Id, cancellationToken);
+        if (category == null)      
+            return new ApiResponse<GetByIdCategoryQueryResponse>("Record not found", false);
+        
+        var mapped = mapper.Map<GetByIdCategoryQueryResponse>(category);
+        return new ApiResponse<GetByIdCategoryQueryResponse>(mapped);
     }
 }
 

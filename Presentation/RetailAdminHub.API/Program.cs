@@ -9,17 +9,15 @@ using RetailAdminHub.Persistence;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(config).CreateLogger();
-Log.Information("App server is starting.");
-
-
 // Add services to the container.
 builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(config).CreateLogger();
+Log.Information("App server is starting.");
 
 
 builder.Services.AddCors(options =>

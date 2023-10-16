@@ -67,6 +67,8 @@ public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
         return true; 
     }
 
-    public async Task<int> SaveAsync()
-        => await context.SaveChangesAsync();
+    public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
+    {
+        return await context.SaveChangesAsync(cancellationToken);
+    }
 }

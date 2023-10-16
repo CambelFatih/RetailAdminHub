@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct;
+using RetailAdminHub.Application.Features.Command.CategoryProduct.RemoveCategoryProduct;
 using RetailAdminHub.Domain.Response;
 
 namespace RetailAdminHub.API.Controllers;
@@ -14,10 +15,15 @@ public class CategoryProductController : ControllerBase
     {
         this.mediator = mediator;
     }
-    [HttpPost("deneme")]
-    public async Task<ApiResponse<CreateCategoryProductCommandResponse>> Post(CreateCategoryProductCommandRequest createCategoryProductCommandRequest)
+    [HttpPost("Create/{ProductId}/{CategoryId}")]
+    public async Task<ApiResponse<CreateCategoryProductCommandResponse>> CratePost([FromRoute] CreateCategoryProductCommandRequest createCategoryProductCommandRequest)
     {
         return await mediator.Send(createCategoryProductCommandRequest);
+    }
+    [HttpPost("Remove/{ProductId}/{CategoryId}")]
+    public async Task<ApiResponse<RemoveCategoryProductCommandResponse>> Post([FromRoute] RemoveCategoryProductCommandRequest removeCategoryProductCommandRequest)
+    {
+        return await mediator.Send(removeCategoryProductCommandRequest);
     }
 }
 

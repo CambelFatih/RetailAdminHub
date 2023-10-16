@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using P = RetailAdminHub.Domain.Entities;
-using RetailAdminHub.Application.DTOs.Product;
 using RetailAdminHub.Application.Exceptions;
 using AutoMapper;
 using RetailAdminHub.Application.Repositories.ProductRepository;
 using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
+using RetailAdminHub.Application.Repositories.CategoryRepository;
 
 namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
 {
@@ -20,16 +21,11 @@ namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
 
         public async Task<ApiResponse<GetByIdProductQueryResponse>> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
-            P.Product product = await productReadRepository.GetProductWithCategoriesAsync(request.Id);
-
+            var product = await productReadRepository.GetProductWithCategoriesAsync(request.Id, cancellationToken);
             if (product == null)
-            {
-                throw new NotFoundProductException();
-            }
-            var productDto = mapper.Map<ProductDetailDTO>(product);
-
-            // Eğer gerekirse, ProductDTO'yu GetByIdProductQueryResponse'ye dönüştürün
-            return mapper.Map<ApiResponse<GetByIdProductQueryResponse>>(productDto);
+                return new ApiResponse<GetByIdProductQueryResponse>("Record not found", false);
+            var mapped = mapper.Map<GetByIdProductQueryResponse>(product);
+            return new ApiResponse<GetByIdProductQueryResponse>(mapped);
         }
     }
 }

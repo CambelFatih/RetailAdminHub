@@ -1,8 +1,8 @@
 ﻿
 
-namespace RetailAdminHub.Application.Features.Command.Category.RemoveCategory
+namespace RetailAdminHub.Application.Features.Command.Category.RemoveCategory;
+
+public class RemoveCategoryCommandResponse
 {
-    internal class RemoveCategoryCommandResponse
-    {
-    }
 }
+

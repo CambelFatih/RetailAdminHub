@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Category.CreateCategory;
 using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
 using RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
-using System.Net;
 using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Application.Features.Command.Category.UpdateCategory;
+using RetailAdminHub.Application.Features.Command.Category.RemoveCategory;
 
 namespace RetailAdminHub.API.Controllers;
 
@@ -18,7 +19,7 @@ public class CategoryController : ControllerBase
         this.mediator = mediator;
     }
     [HttpGet]
-    public async Task<ApiResponse<GetAllCategoryQueryResponse>> Get()
+    public async Task<ApiResponse<List<GetAllCategoryQueryResponse>>> Get()
     {
         GetAllCategoryQueryRequest getAllCategoryQueryRequest = new GetAllCategoryQueryRequest();
         return await mediator.Send(getAllCategoryQueryRequest);
@@ -32,6 +33,16 @@ public class CategoryController : ControllerBase
     public async Task<ApiResponse<GetByIdCategoryQueryResponse>> Get([FromRoute] GetByIdCategoryQueryRequest getByIdCategoryQueryRequest)
     {
         return await mediator.Send(getByIdCategoryQueryRequest);
+    }
+    [HttpPut]
+    public async Task<ApiResponse<UpdateCategoryCommandResponse>> Put([FromBody] UpdateCategoryCommandRequest updateCategoryCommandRequest)
+    {
+        return await mediator.Send(updateCategoryCommandRequest);
+    }
+    [HttpDelete("{Id}")]
+    public async Task<ApiResponse<RemoveCategoryCommandResponse>> Delete([FromRoute] RemoveCategoryCommandRequest removeCategoryCommandRequest)
+    {
+        return await mediator.Send(removeCategoryCommandRequest);
     }
 }
 

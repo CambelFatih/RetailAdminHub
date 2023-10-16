@@ -2,26 +2,26 @@
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Domain.Response;
 
-namespace RetailAdminHub.Application.Features.Command.Category.CreateCategory
+namespace RetailAdminHub.Application.Features.Command.Category.CreateCategory;
+
+public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommandRequest, ApiResponse<CreateCategoryCommandResponse>>
 {
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommandRequest, ApiResponse<CreateCategoryCommandResponse>>
+    private readonly ICategoryWriteRepository _categoryWriteRepository;
+
+    public CreateCategoryCommandHandler(ICategoryWriteRepository categoryWriteRepository)
     {
-        private readonly ICategoryWriteRepository _categoryWriteRepository;
+        _categoryWriteRepository = categoryWriteRepository;
+    }
 
-        public CreateCategoryCommandHandler(ICategoryWriteRepository categoryWriteRepository)
+    public async Task<ApiResponse<CreateCategoryCommandResponse>> Handle(CreateCategoryCommandRequest request, CancellationToken cancellationToken)
+    {
+        await _categoryWriteRepository.AddAsync(new()
         {
-            _categoryWriteRepository = categoryWriteRepository;
-        }
-
-        public async Task<ApiResponse<CreateCategoryCommandResponse>> Handle(CreateCategoryCommandRequest request, CancellationToken cancellationToken)
-        {
-            await _categoryWriteRepository.AddAsync(new()
-            {
-                Name = request.Name,
-                Description = request.Description,
-            });
-            await _categoryWriteRepository.SaveAsync();
-            return new ApiResponse<CreateCategoryCommandResponse>(true);
-        }
+            Name = request.Name,
+            Description = request.Description,
+        });
+        await _categoryWriteRepository.SaveAsync();
+        return new ApiResponse<CreateCategoryCommandResponse>(true);
     }
 }
+

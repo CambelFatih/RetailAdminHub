@@ -1,7 +1,6 @@
-﻿using RetailAdminHub.Application.Dto;
-namespace RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
+﻿namespace RetailAdminHub.Application.Dto;
 
-public class GetAllCategoryQueryResponse
+public class CategoryDetailDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -10,4 +9,12 @@ public class GetAllCategoryQueryResponse
     public DateTime? UpdateDate { get; set; }
     public List<ProductSummaryDto> Products { get; set; }
 }
+
+
+public class CategorySummaryDto
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+}
+
 

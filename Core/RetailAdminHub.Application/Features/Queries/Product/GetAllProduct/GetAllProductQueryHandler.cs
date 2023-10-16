@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using RetailAdminHub.Application.DTOs.Product;
 using RetailAdminHub.Application.Repositories.ProductRepository;
 using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Application.Dto;
 
 namespace RetailAdminHub.Application.Features.Queries.Product.GetAllProduct
 {
@@ -23,7 +23,7 @@ namespace RetailAdminHub.Application.Features.Queries.Product.GetAllProduct
 
             var products = await productReadRepository.GetProductsPagedWithCategoriesAsync(request.Page, request.Size);
 
-            var productDTOs = mapper.Map<List<ProductDetailDTO>>(products);
+            var productDTOs = mapper.Map<List<ProductDetailDto>>(products);
             var response = new GetAllProductQueryResponse
             {
                 TotalProductCount = totalProductCount,

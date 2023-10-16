@@ -1,15 +1,8 @@
-﻿using RetailAdminHub.Application.DTOs.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RetailAdminHub.Application.Dto;
+namespace RetailAdminHub.Application.Features.Queries.Product.GetAllProduct;
 
-namespace RetailAdminHub.Application.Features.Queries.Product.GetAllProduct
+public class GetAllProductQueryResponse
 {
-    public class GetAllProductQueryResponse
-    {
-        public int TotalProductCount { get; set; }
-        public List<ProductDetailDTO> Products { get; set; }
-    }
+    public int TotalProductCount { get; set; }
+    public List<ProductDetailDto> Products { get; set; }
 }

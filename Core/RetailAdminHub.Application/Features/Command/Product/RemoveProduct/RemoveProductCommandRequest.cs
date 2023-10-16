@@ -1,11 +1,10 @@
 ﻿using MediatR;
 using RetailAdminHub.Domain.Response;
 
+namespace RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
 
-namespace RetailAdminHub.Application.Features.Command.Product.RemoveProduct
+public class RemoveProductCommandRequest : IRequest<ApiResponse<RemoveProductCommandResponse>>
 {
-    public class RemoveProductCommandRequest : IRequest<ApiResponse<RemoveProductCommandResponse>>
-    {
-        public string ProductId { get; set; }
-    }
+    public string Id { get; set; }
 }
+

@@ -13,7 +13,7 @@ public class ProductReadRepository : ReadRepository<Product>, IProductReadReposi
     {
         this.context = context;
     }
-    public async Task<Product>? GetProductWithCategoriesAsync(string productId)
+    public async Task<Product>? GetProductWithCategoriesAsync(string productId, CancellationToken cancellationToken)
     {
         if (!Guid.TryParse(productId, out Guid parsedId))
         {
@@ -22,7 +22,7 @@ public class ProductReadRepository : ReadRepository<Product>, IProductReadReposi
         return await context.Products
             .Where(x => x.IsActive)
             .Include(p => p.Categories)
-            .FirstOrDefaultAsync(p => p.Id == parsedId);
+            .FirstOrDefaultAsync(p => p.Id == parsedId, cancellationToken);
     }
     public async Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size)
     {

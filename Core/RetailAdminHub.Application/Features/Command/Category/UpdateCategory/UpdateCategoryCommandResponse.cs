@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace RetailAdminHub.Application.Features.Command.Category.UpdateCategory;
 
-namespace RetailAdminHub.Application.Features.Command.Category.UpdateCategory
+public class UpdateCategoryCommandResponse
 {
-    internal class UpdateCategoryCommandResponse
-    {
-    }
 }
+

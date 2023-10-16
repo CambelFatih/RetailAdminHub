@@ -1,9 +1,7 @@
-﻿
+﻿namespace RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct;
 
-namespace RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct
+public class CreateCategoryProductCommandResponse
 {
-    public class CreateCategoryProductCommandResponse
-    {
-        public Guid ProductId { get; set; }
-    }
+
 }
+
