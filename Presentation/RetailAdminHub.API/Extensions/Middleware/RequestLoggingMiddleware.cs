@@ -1,6 +1,6 @@
-﻿using RetailAdminHub.Domain.Logger;
-using Serilog;
+﻿using Serilog;
 using Microsoft.IO;
+using RetailAdminHub.Domain.Base.Logger;
 
 namespace RetailAdminHub.API.Extensions.Middleware;
 public class RequestLoggingMiddleware

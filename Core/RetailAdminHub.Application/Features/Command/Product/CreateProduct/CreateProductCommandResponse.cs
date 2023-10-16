@@ -1,4 +1,4 @@
-﻿using RetailAdminHub.Domain.Response;
+﻿using RetailAdminHub.Domain.Base.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;

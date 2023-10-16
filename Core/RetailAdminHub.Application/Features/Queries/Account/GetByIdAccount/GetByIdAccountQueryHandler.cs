@@ -4,7 +4,7 @@ using RetailAdminHub.Application.Features.Queries.Account.GetAllAccount;
 using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
 using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using RetailAdminHub.Application.Repositories.ProductRepository;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 
 
 namespace RetailAdminHub.Application.Features.Command.Product.CreateProduct

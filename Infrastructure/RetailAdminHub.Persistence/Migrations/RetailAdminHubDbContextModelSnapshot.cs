@@ -126,6 +126,17 @@ namespace RetailAdminHub.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("RetailAdminHub.Domain.Entities.CategoryProduct", b =>
+                {
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.ToTable("CategoryProducts");
+                });
+
             modelBuilder.Entity("RetailAdminHub.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")

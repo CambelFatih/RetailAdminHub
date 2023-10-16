@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct;
 using RetailAdminHub.Application.Features.Command.CategoryProduct.RemoveCategoryProduct;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.API.Controllers;
 

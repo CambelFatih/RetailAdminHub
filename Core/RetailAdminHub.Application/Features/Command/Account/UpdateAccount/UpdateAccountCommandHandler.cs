@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using RetailAdminHub.Application.Repositories.AccountRepository;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.Application.Features.Command.Account.UpdateAccount;
 

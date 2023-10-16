@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Domain.Entities;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 using RetailAdminHub.Persistence.Contexts;
 using System.Net;
 using System.Threading;

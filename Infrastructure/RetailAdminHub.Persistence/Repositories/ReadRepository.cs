@@ -37,12 +37,12 @@ public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
             query = query.AsNoTracking();
         return query;
     }
-    public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true)
+    public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method, CancellationToken cancellationToken, bool tracking = true)
     {
         var query = Table.AsQueryable();
         if (!tracking)
             query = Table.AsNoTracking();
-        return await query.FirstOrDefaultAsync(method);
+        return await query.FirstOrDefaultAsync(method, cancellationToken);
     }
     public async Task<T> GetByIdAsync(string id, CancellationToken cancellationToken = default, bool tracking = true)
     {
@@ -54,6 +54,5 @@ public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
             query = query.AsNoTracking();
         return await query.FirstOrDefaultAsync(data => data.Id == parsedId, cancellationToken);
     }
-
 }
 

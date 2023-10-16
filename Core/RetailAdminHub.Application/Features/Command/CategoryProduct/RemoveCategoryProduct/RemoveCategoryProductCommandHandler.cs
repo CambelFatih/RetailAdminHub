@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using RetailAdminHub.Application.Repositories.ProductRepository;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ public class RemoveCategoryProductCommandHandler : IRequestHandler<RemoveCategor
         try
         {
             // RemoveProductCategoryRelationAsync fonksiyonunu çağırarak işlemi gerçekleştir
-            bool success = await productWriteRepository.RemoveProductCategoryRelationAsync(request.ProductId, request.CategoryId);
+            bool success = await productWriteRepository.RemoveCategoryProductAsync(request.ProductId, request.CategoryId);
 
             if (success)
             {

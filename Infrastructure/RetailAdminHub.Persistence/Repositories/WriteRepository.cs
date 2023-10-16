@@ -1,15 +1,8 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RetailAdminHub.Application.Repositories;
 using RetailAdminHub.Domain.Entities.Common;
-using RetailAdminHub.Domain.Response;
 using RetailAdminHub.Persistence.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RetailAdminHub.Persistence.Repositories;
 

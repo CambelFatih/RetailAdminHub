@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
 

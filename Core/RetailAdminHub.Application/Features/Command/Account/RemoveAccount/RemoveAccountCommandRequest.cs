@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using RetailAdminHub.Application.Features.Command.Account.CreateAccount;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;

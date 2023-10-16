@@ -5,7 +5,7 @@ using RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
 using RetailAdminHub.Application.Features.Command.Product.UpdateProduct;
 using RetailAdminHub.Application.Features.Queries.Product.GetAllProduct;
 using RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Response;
 using System.Net;
 
 namespace RetailAdminHub.API.Controllers;

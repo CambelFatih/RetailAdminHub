@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Category.CreateCategory;
 using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
 using RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
-using RetailAdminHub.Domain.Response;
 using RetailAdminHub.Application.Features.Command.Category.UpdateCategory;
 using RetailAdminHub.Application.Features.Command.Category.RemoveCategory;
+using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.API.Controllers;
 

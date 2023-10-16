@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Domain.Base.Response;
 using RetailAdminHub.Domain.Entities;
-using RetailAdminHub.Domain.Response;
 
 namespace RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCategoryProduct;
 

@@ -1,7 +1,7 @@
-﻿using RetailAdminHub.Domain.Response;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 using Serilog;
+using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.API.Extensions.Middleware;
 

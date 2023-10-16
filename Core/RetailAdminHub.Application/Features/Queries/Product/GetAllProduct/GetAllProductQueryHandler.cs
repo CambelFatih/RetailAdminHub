@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using RetailAdminHub.Application.Repositories.ProductRepository;
-using RetailAdminHub.Domain.Response;
 using RetailAdminHub.Application.Dto;
+using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.Application.Features.Queries.Product.GetAllProduct
 {

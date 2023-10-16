@@ -21,27 +21,40 @@ public class ProductWriteRepository : WriteRepository<Product>, IProductWriteRep
         product.Categories.Add(category);
         await context.SaveChangesAsync(cancellationToken);
     }
-    public async Task<bool> RemoveProductCategoryRelationAsync(string productId, string categoryId)
+    public async Task<bool> RemoveCategoryProductAsync(string productId, string categoryId)
     {
-        // Kontroller: productId ve categoryId null değilse ve boş değilse
-        if (!string.IsNullOrEmpty(productId) && !string.IsNullOrEmpty(categoryId))
+        try
         {
-            string deleteQuery = $"DELETE FROM CategoryProduct WHERE ProductId = '{productId}' AND CategoryId = '{categoryId}'";
-            try
+            if (!Guid.TryParse(productId, out Guid pProductId))
             {
-                int affectedRows = await context.Database.ExecuteSqlRawAsync(deleteQuery);
-                // Sorgu başarılı şekilde çalıştıysa ve en az bir kayıt silindi ise true döndür
-                return affectedRows > 0;
-            }
-            catch (Exception ex)
-            {
-                // Hata durumunda false döndür
                 return false;
             }
-        }
+            if (!Guid.TryParse(categoryId, out Guid pCategoryId))
+            {
+                return false;
+            }
+            // CategoryProduct tablosundan ilgili kaydı bul
+            var categoryProduct = await context.CategoryProducts
+                .FirstOrDefaultAsync(cp => cp.ProductId == pProductId && cp.CategoryId == pCategoryId);
 
-        // productId veya categoryId null veya boşsa, false döndür
-        return false;
+            if (categoryProduct != null)
+            {
+                // Kaydı sil ve kaydedilen satır sayısını kontrol et
+                context.CategoryProducts.Remove(categoryProduct);
+                int affectedRows = await context.SaveChangesAsync();
+
+                // Eğer en az bir satır silindi ise true döndür
+                return affectedRows > 0;
+            }
+
+            // Eğer kayıt bulunamazsa veya silinemezse false döndür
+            return false;
+        }
+        catch (Exception ex)
+        {
+            // Hata durumunda false döndür
+            return false;
+        }
     }
 }
 

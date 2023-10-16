@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using RetailAdminHub.Application.Repositories.AccountRepository;
-using RetailAdminHub.Domain.Response;
+using RetailAdminHub.Domain.Base.Encryption;
+using RetailAdminHub.Domain.Base.Response;
+using a=RetailAdminHub.Domain.Entities;
 
 
 namespace RetailAdminHub.Application.Features.Command.Account.CreateAccount;
@@ -22,7 +24,7 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandR
         {
             AccountNumber = uniqueInt,
             Email = request.Email,
-            Password = request.Password,
+            Password = Md5.Create(request.Password.ToUpper()),
             FirstName = request.FirstName,
             LastName = request.LastName,
             Role = "admin"
