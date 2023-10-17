@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
 
@@ -38,6 +37,8 @@ public class PatchProductCommandHandler : IRequestHandler<PatchProductCommandReq
                 product.Stock = PatchProductCommandRequestDTO.Stock;
                 product.Price = PatchProductCommandRequestDTO.Price;
 
+                //product= mapper.Map<t.Product>(PatchProductCommandRequestDTO);
+
                 await unitOfWork.ProductWriteRepository.SaveAsync(cancellationToken);
                 transaction.Commit();
 
@@ -57,41 +58,8 @@ public class PatchProductCommandHandler : IRequestHandler<PatchProductCommandReq
  [
   {
     "op": "replace",
-    "path": "/user/name",
-    "value": "Jane Doe"
+    "path": "name",
+    "value": "4090 GPU"
   }
 ]
-
  */
-
-//[HttpPatch("{id:int}")]
-//public async Task<ActionResult> Patch(int id, JsonPatchDocument<LibroPatchDTO> patchDocument)
-//{
-//    if (patchDocument == null)
-//    {
-//        return BadRequest();
-//    }
-
-//    var libroDB = await context.Libros.FirstOrDefaultAsync(x => x.Id == id);
-
-//    if (libroDB == null)
-//    {
-//        return NotFound();
-//    }
-
-//    var libroDTO = mapper.Map<LibroPatchDTO>(libroDB);
-
-//    patchDocument.ApplyTo(libroDTO, ModelState);
-
-//    var esValido = TryValidateModel(libroDTO);
-
-//    if (!esValido)
-//    {
-//        return BadRequest(ModelState);
-//    }
-
-//    mapper.Map(libroDTO, libroDB);
-
-//    await context.SaveChangesAsync();
-//    return NoContent();
-//}

@@ -24,6 +24,7 @@ public class MappingProfile : Profile
         CreateMap<Account, GetByIdAccountQueryResponse>();
 
         CreateMap<Product, PatchProductCommandRequest>();
+        CreateMap<PatchProductCommandRequest, Product>();
 
         CreateMap<Product, ProductSummaryDto>();
         CreateMap<Product, ProductDetailDto>();

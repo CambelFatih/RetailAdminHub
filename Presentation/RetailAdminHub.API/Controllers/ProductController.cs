@@ -63,3 +63,37 @@ public class ProductController : ControllerBase
         return await mediator.Send(removeProductCommandRequest);
     }
 }
+/*  ---- Patch Method --- 
+Example patch request bodys, You can use the sample request bodys code below
+you can just update(replace) 
+
+1.name property update patch method request body
+
+[
+  {
+    "op": "replace",
+    "path": "name",
+    "value": "NVDIA 4090 GPU"
+  }
+]
+
+2.stock property update patch method request body
+
+[
+  {
+    "op": "replace",
+    "path": "stock",
+    "value": 22
+  }
+]
+
+3.price property update patch method request body
+
+[
+  {
+    "op": "replace",
+    "path": "price",
+    "value": 33.5
+  }
+]
+ */

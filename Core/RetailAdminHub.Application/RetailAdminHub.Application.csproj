@@ -15,10 +15,6 @@
     <ProjectReference Include="..\RetailAdminHub.Domain\RetailAdminHub.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Queries\CategoryProduct\GetAllCategoryProduct\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
