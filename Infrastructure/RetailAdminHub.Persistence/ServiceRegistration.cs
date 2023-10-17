@@ -21,9 +21,6 @@ namespace RetailAdminHub.Persistence
         {
             services.AddDbContext<RetailAdminHubDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
 
-            services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssemblyContaining<BaseValidator>();
-
             services.AddScoped<IProductReadRepository, ProductReadRepository>();             
             services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
             services.AddScoped<IAccountReadRepository, AccountReadRepository>();

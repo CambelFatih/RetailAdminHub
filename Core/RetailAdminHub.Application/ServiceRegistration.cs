@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using RetailAdminHub.Application.Validators;
 
 namespace RetailAdminHub.Application
 {
@@ -9,6 +11,7 @@ namespace RetailAdminHub.Application
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly));
             services.AddHttpClient();
+            services.AddValidatorsFromAssemblyContaining<BaseValidator>();
         }
     }
 }
