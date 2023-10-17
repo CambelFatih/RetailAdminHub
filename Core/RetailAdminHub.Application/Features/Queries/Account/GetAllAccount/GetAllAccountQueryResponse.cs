@@ -9,9 +9,5 @@ public class GetAllAccountQueryResponse
     public string Password { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Role { get; set; }
-    public DateTime LastActivityDate { get; set; }
-    public DateTime InsertDate { get; set; }
-    virtual public DateTime? UpdateDate { get; set; }
 }
 

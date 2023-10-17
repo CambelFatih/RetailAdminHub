@@ -1,38 +1,29 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
 
+namespace RetailAdminHub.Application.Features.Command.Product.CreateProduct;
 
-namespace RetailAdminHub.Application.Features.Command.Product.CreateProduct
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, ApiResponse<CreateProductCommandResponse>>
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, ApiResponse<CreateProductCommandResponse>>
+    private readonly IUnitOfWork unitOfWork;
+
+    public CreateProductCommandHandler(IUnitOfWork unitOfWork)
     {
+        this.unitOfWork = unitOfWork;
+    }
 
-        private readonly IProductWriteRepository productWriteRepository;
-
-        public CreateProductCommandHandler(IProductWriteRepository productWriteRepository)
+    public async Task<ApiResponse<CreateProductCommandResponse>> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
+    {          
+        await unitOfWork.ProductWriteRepository.AddAsync(new()
         {
-            this.productWriteRepository = productWriteRepository;
-        }
-
-        public async Task<ApiResponse<CreateProductCommandResponse>> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
-        {          
-            try
-            {
-                await productWriteRepository.AddAsync(new()
-                {
-                    Name = request.Name,
-                    Price = request.Price,
-                    Stock = request.Stock,
-                    IsActive = true,
-                });
-                await productWriteRepository.SaveAsync();
-               return new ApiResponse<CreateProductCommandResponse>(true);
-            }
-            catch (Exception e)
-            {
-                return new ApiResponse<CreateProductCommandResponse>(success:false,message:e.Message);
-            }        
-        }
+            Name = request.Name,
+            Price = request.Price,
+            Stock = request.Stock,
+            IsActive = true,
+        });
+        await unitOfWork.ProductWriteRepository.SaveAsync();
+        return new ApiResponse<CreateProductCommandResponse>(true);    
     }
 }
+

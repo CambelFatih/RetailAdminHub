@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Product.CreateProduct;
 using RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
@@ -6,6 +7,7 @@ using RetailAdminHub.Application.Features.Command.Product.UpdateProduct;
 using RetailAdminHub.Application.Features.Queries.Product.GetAllProduct;
 using RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
 using RetailAdminHub.Domain.Base.Response;
+using System.Data;
 using System.Net;
 
 namespace RetailAdminHub.API.Controllers;
@@ -20,6 +22,7 @@ public class ProductController : ControllerBase
         this.mediator = mediator;
     }
     [HttpGet]
+    [Authorize(Roles = "admin")]
     public async Task<ApiResponse<GetAllProductQueryResponse>> Get([FromRoute] GetAllProductQueryRequest getAllProductQueryRequest) 
     {
         return  await mediator.Send(getAllProductQueryRequest);
@@ -31,16 +34,19 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "admin")]
     public async Task<ApiResponse<CreateProductCommandResponse>> Post(CreateProductCommandRequest createProductCommandRequest)
     {
         return  await mediator.Send(createProductCommandRequest);
     }
     [HttpPut]
+    [Authorize(Roles = "admin")]
     public async Task<ApiResponse<UpdateProductCommandResponse>> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
     {
         return await mediator.Send(updateProductCommandRequest);
     }
     [HttpDelete("{Id}")]
+    [Authorize(Roles = "admin")]
     public async Task<ApiResponse<RemoveProductCommandResponse>> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
     {
         return await mediator.Send(removeProductCommandRequest);

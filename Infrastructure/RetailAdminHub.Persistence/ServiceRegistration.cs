@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RetailAdminHub.Domain.Entities;
 using RetailAdminHub.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using RetailAdminHub.Persistence.Repositories.ProductRepository;
@@ -8,6 +7,11 @@ using RetailAdminHub.Persistence.Repositories.CategoryRepository;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Persistence.Repositories.AccountRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
+using RetailAdminHub.Persistence.Uow;
+using RetailAdminHub.Application.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace RetailAdminHub.Persistence
 {
@@ -16,7 +20,10 @@ namespace RetailAdminHub.Persistence
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<RetailAdminHubDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
-            
+
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<BaseValidator>();
+
             services.AddScoped<IProductReadRepository, ProductReadRepository>();             
             services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
             services.AddScoped<IAccountReadRepository, AccountReadRepository>();
@@ -24,6 +31,8 @@ namespace RetailAdminHub.Persistence
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
             services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
             services.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         }
     }

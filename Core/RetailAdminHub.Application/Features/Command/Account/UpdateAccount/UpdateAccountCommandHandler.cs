@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Domain.Base.Response;
 
@@ -6,18 +7,16 @@ namespace RetailAdminHub.Application.Features.Command.Account.UpdateAccount;
 
 public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommandRequest, ApiResponse<UpdateAccountCommandResponse>>
 {
-    private readonly IAccountReadRepository AccountReadRepository;
-    private readonly IAccountWriteRepository AccountWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public UpdateAccountCommandHandler(IAccountReadRepository AccountReadRepository, IAccountWriteRepository AccountWriteRepository)
+    public UpdateAccountCommandHandler(IUnitOfWork unitOfWork)
     {
-        this.AccountReadRepository = AccountReadRepository;
-        this.AccountWriteRepository = AccountWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<UpdateAccountCommandResponse>> Handle(UpdateAccountCommandRequest request, CancellationToken cancellationToken)
     {
-        var category = await AccountReadRepository.GetByIdAsync(request.Id, cancellationToken);
+        var category = await unitOfWork.AccountReadRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (category == null)
             return new ApiResponse<UpdateAccountCommandResponse>("Record not found", false);
@@ -31,7 +30,7 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommandR
             category.LastName = request.LastName;
         if (request.Role != null || request.Role != "string")
             category.Role = request.Role;
-        await AccountWriteRepository.SaveAsync(cancellationToken);
+        await unitOfWork.AccountWriteRepository.SaveAsync(cancellationToken);
         return new ApiResponse<UpdateAccountCommandResponse>(true);
     }
 }

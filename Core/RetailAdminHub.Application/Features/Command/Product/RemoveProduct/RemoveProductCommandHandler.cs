@@ -1,21 +1,21 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
 
 public class RemoveProductCommandHandler : IRequestHandler<RemoveProductCommandRequest, ApiResponse<RemoveProductCommandResponse>>
 {
-    readonly IProductWriteRepository productWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public RemoveProductCommandHandler(IProductWriteRepository productWriteRepository)
+    public RemoveProductCommandHandler(IUnitOfWork unitOfWork)
     {
-        this.productWriteRepository = productWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<RemoveProductCommandResponse>> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
     {
-        var result = await productWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        var result = await unitOfWork.ProductWriteRepository.SoftDeleteById(request.Id, cancellationToken);
         return new ApiResponse<RemoveProductCommandResponse>(result);
     }
 }

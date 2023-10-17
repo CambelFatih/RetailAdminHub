@@ -1,25 +1,21 @@
-﻿
-
-using MediatR;
-using RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
-using RetailAdminHub.Application.Repositories.CategoryRepository;
-using RetailAdminHub.Application.Repositories.ProductRepository;
+﻿using MediatR;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.Application.Features.Command.Category.RemoveCategory;
 
 public class RemoveCategoryCommandHandler : IRequestHandler<RemoveCategoryCommandRequest, ApiResponse<RemoveCategoryCommandResponse>>
 {
-    private readonly ICategoryWriteRepository categoryWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public RemoveCategoryCommandHandler(ICategoryWriteRepository categoryWriteRepository)
+    public RemoveCategoryCommandHandler(IUnitOfWork unitOfWork)
     {
-        this.categoryWriteRepository = categoryWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<RemoveCategoryCommandResponse>> Handle(RemoveCategoryCommandRequest request, CancellationToken cancellationToken)
     {
-        var result = await categoryWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        var result = await unitOfWork.CategoryWriteRepository.SoftDeleteById(request.Id, cancellationToken);
         return new ApiResponse<RemoveCategoryCommandResponse>(result);
     }
 }

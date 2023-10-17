@@ -1,19 +1,17 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Repositories.AccountRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Encryption;
 using RetailAdminHub.Domain.Base.Response;
-using a=RetailAdminHub.Domain.Entities;
-
 
 namespace RetailAdminHub.Application.Features.Command.Account.CreateAccount;
 
 public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandRequest, ApiResponse<CreateAccountCommandResponse>>
 {
-    private readonly IAccountWriteRepository accountWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public CreateAccountCommandHandler(IAccountWriteRepository accountWriteRepository)
+    public CreateAccountCommandHandler( IUnitOfWork unitOfWork) 
     {
-        this.accountWriteRepository = accountWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<CreateAccountCommandResponse>> Handle(CreateAccountCommandRequest request, CancellationToken cancellationToken)
@@ -21,7 +19,7 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandR
         Random rnd = new Random();
         int uniqueInt = rnd.Next();
         request.Password = Md5.Control(request.Password.ToUpper());
-        await accountWriteRepository.AddAsync(new()
+        await unitOfWork.AccountWriteRepository.AddAsync(new()
         {
             AccountNumber = uniqueInt,
             Email = request.Email,
@@ -31,7 +29,7 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandR
             Role = "admin"
            
         });
-        await accountWriteRepository.SaveAsync();
+        await unitOfWork.AccountWriteRepository.SaveAsync();
         var response = new CreateAccountCommandResponse()
         {
             AccountNumber = uniqueInt

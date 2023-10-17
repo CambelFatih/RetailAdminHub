@@ -1,31 +1,27 @@
 ﻿using MediatR;
-using P = RetailAdminHub.Domain.Entities;
-using RetailAdminHub.Application.Exceptions;
 using AutoMapper;
-using RetailAdminHub.Application.Repositories.ProductRepository;
-using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
-using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Domain.Base.Response;
+using RetailAdminHub.Application.Abstractions.Uow;
 
-namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct
+namespace RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
+
+public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, ApiResponse<GetByIdProductQueryResponse>>
 {
-    public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, ApiResponse<GetByIdProductQueryResponse>>
-    {
-        private readonly IMapper mapper;
-        private readonly IProductReadRepository productReadRepository;
-        public GetByIdProductQueryHandler(IProductReadRepository productReadRepository, IMapper mapper)
-        {
-            this.productReadRepository = productReadRepository;
-            this.mapper = mapper;
-        }
+    private readonly IMapper mapper;
+    private readonly IUnitOfWork unitOfWork;
 
-        public async Task<ApiResponse<GetByIdProductQueryResponse>> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
-        {
-            var product = await productReadRepository.GetProductWithCategoriesAsync(request.Id, cancellationToken);
-            if (product == null)
-                return new ApiResponse<GetByIdProductQueryResponse>("Record not found", false);
-            var mapped = mapper.Map<GetByIdProductQueryResponse>(product);
-            return new ApiResponse<GetByIdProductQueryResponse>(mapped);
-        }
+    public GetByIdProductQueryHandler(IMapper mapper, IUnitOfWork unitOfWork)
+    {
+        this.mapper = mapper;
+        this.unitOfWork = unitOfWork;
+    }
+
+    public async Task<ApiResponse<GetByIdProductQueryResponse>> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
+    {
+        var product = await unitOfWork.ProductReadRepository.GetProductWithCategoriesAsync(request.Id, cancellationToken);
+        if (product == null)
+            return new ApiResponse<GetByIdProductQueryResponse>("Record not found", false);
+        var mapped = mapper.Map<GetByIdProductQueryResponse>(product);
+        return new ApiResponse<GetByIdProductQueryResponse>(mapped);
     }
 }

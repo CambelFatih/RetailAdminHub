@@ -1,28 +1,22 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
-using RetailAdminHub.Application.Repositories.AccountRepository;
-using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RetailAdminHub.Application.Features.Command.Account.RemoveAccount;
 
 public class RemoveAccountCommandHandler : IRequestHandler<RemoveAccountCommandRequest, ApiResponse<RemoveAccountCommandResponse>>
 {
-    readonly IAccountWriteRepository accountWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public RemoveAccountCommandHandler(IAccountWriteRepository accountWriteRepository)
+    public RemoveAccountCommandHandler(IUnitOfWork unitOfWork)
     {
-        this.accountWriteRepository = accountWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<RemoveAccountCommandResponse>> Handle(RemoveAccountCommandRequest request, CancellationToken cancellationToken)
     {
-        var result = await accountWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        var result = await unitOfWork.AccountWriteRepository.SoftDeleteById(request.Id, cancellationToken);
         return new ApiResponse<RemoveAccountCommandResponse>(result);
     }
 }

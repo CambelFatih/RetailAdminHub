@@ -1,33 +1,29 @@
 ﻿using MediatR;
 using Microsoft.IdentityModel.Tokens;
-using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Domain.Base.Encryption;
 using RetailAdminHub.Domain.Base.Response;
 using RetailAdminHub.Domain.Base.Token;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using RetailAdminHub.Application.Dto;
 using Microsoft.Extensions.Options;
+using RetailAdminHub.Application.Abstractions.Uow;
 
 namespace RetailAdminHub.Application.Features.Command.Token.CreateToken;
 
 public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommandRequest, ApiResponse<CreateTokenCommandResponse>>
 {
-    private readonly IAccountReadRepository accountReadRepository;
-    private readonly IAccountWriteRepository accountWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
     private readonly JwtConfig jwtConfig;
-
-    public CreateTokenCommandHandler(IAccountReadRepository accountReadRepository, IAccountWriteRepository accountWriteRepository, IOptionsMonitor<JwtConfig> jwtConfig)
+    public CreateTokenCommandHandler(IUnitOfWork unitOfWork, IOptionsMonitor<JwtConfig> jwtConfig)
     {
-        this.accountReadRepository = accountReadRepository;
-        this.accountWriteRepository = accountWriteRepository;
+        this.unitOfWork = unitOfWork;
         this.jwtConfig = jwtConfig.CurrentValue;
     }
 
     public async Task<ApiResponse<CreateTokenCommandResponse>> Handle(CreateTokenCommandRequest request, CancellationToken cancellationToken)
     {
-        var entity = await accountReadRepository.GetSingleAsync(x => x.AccountNumber == request.AccountNumber, cancellationToken);
+        var entity = await unitOfWork.AccountReadRepository.GetSingleAsync(x => x.AccountNumber == request.AccountNumber, cancellationToken);
         if (entity == null)      
             return new ApiResponse<CreateTokenCommandResponse>("Invalid user informations");
 
@@ -36,7 +32,7 @@ public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommandReque
         {
             entity.LastActivityDate = DateTime.UtcNow;
             entity.PasswordRetryCount++;
-            await accountWriteRepository.SaveAsync(cancellationToken);
+            await unitOfWork.AccountWriteRepository.SaveAsync(cancellationToken);
 
             return new ApiResponse<CreateTokenCommandResponse>("Invalid user informations");
         }

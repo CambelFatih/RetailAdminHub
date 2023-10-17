@@ -1,43 +1,25 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RetailAdminHub.Application.Features.Command.CategoryProduct.RemoveCategoryProduct;
 
 public class RemoveCategoryProductCommandHandler : IRequestHandler<RemoveCategoryProductCommandRequest, ApiResponse<RemoveCategoryProductCommandResponse>>
 {
-    private readonly IProductWriteRepository productWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public RemoveCategoryProductCommandHandler(IProductWriteRepository productWriteRepository)
+    public RemoveCategoryProductCommandHandler(IUnitOfWork unitOfWork)
     {
-        this.productWriteRepository = productWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<RemoveCategoryProductCommandResponse>> Handle(RemoveCategoryProductCommandRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            // RemoveProductCategoryRelationAsync fonksiyonunu çağırarak işlemi gerçekleştir
-            bool success = await productWriteRepository.RemoveCategoryProductAsync(request.ProductId, request.CategoryId);
-
-            if (success)
-            {
-                return new ApiResponse<RemoveCategoryProductCommandResponse>("CategoryProduct relation successfully removed.",true);
-            }
-            else
-            {
-                return new ApiResponse<RemoveCategoryProductCommandResponse>("Failed to remove CategoryProduct relation.");
-            }
-        }
-        catch (Exception ex)
-        {
-            return new ApiResponse<RemoveCategoryProductCommandResponse>(ex.Message);
-        }
+        bool success = await unitOfWork.ProductWriteRepository.RemoveCategoryProductAsync(request.ProductId, request.CategoryId);
+        if (!success)       
+            return new ApiResponse<RemoveCategoryProductCommandResponse>("Failed to remove CategoryProduct relation.");
+          
+        return new ApiResponse<RemoveCategoryProductCommandResponse>("CategoryProduct relation successfully removed.", true);
     }
 }
 

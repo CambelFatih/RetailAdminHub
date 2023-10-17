@@ -47,8 +47,8 @@ builder.Services.AddControllers(options =>
 })
 .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<BaseValidator>();
+//builder.Services.AddFluentValidationAutoValidation();
+//builder.Services.AddValidatorsFromAssemblyContaining<BaseValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -112,8 +112,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 //app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
-app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseMiddleware<HeartBeatMiddleware>();
+
 Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
 {
     Log.Information("-------------Request-Begin------------");
@@ -122,11 +121,14 @@ Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
     Log.Information(requestProfilerModel.Response);
     Log.Information("-------------Request-End------------");
 };
-app.UseMiddleware<RequestLoggingMiddleware>(requestResponseHandler);
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<HeartBeatMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>(requestResponseHandler);
 app.UseMiddleware<UserContextMiddleware>();
 app.MapControllers();
 

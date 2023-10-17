@@ -1,37 +1,28 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Features.Command.Product.UpdateProduct;
-using RetailAdminHub.Application.Repositories.CategoryRepository;
-using RetailAdminHub.Application.Repositories.ProductRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RetailAdminHub.Application.Features.Command.Category.UpdateCategory;
 
 public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommandRequest, ApiResponse<UpdateCategoryCommandResponse>>
 {
-    private readonly ICategoryReadRepository categoryReadRepository;
-    private readonly ICategoryWriteRepository categoryWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public UpdateCategoryCommandHandler(ICategoryReadRepository categoryReadRepository, ICategoryWriteRepository categoryWriteRepository)
+    public UpdateCategoryCommandHandler(IUnitOfWork unitOfWork)
     {
-        this.categoryReadRepository = categoryReadRepository;
-        this.categoryWriteRepository = categoryWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<UpdateCategoryCommandResponse>> Handle(UpdateCategoryCommandRequest request, CancellationToken cancellationToken)
     {
-        var category = await categoryReadRepository.GetByIdAsync(request.Id,cancellationToken);
+        var category = await unitOfWork.CategoryReadRepository.GetByIdAsync(request.Id,cancellationToken);
 
         if (category == null)
             return new ApiResponse<UpdateCategoryCommandResponse>("Record not found", false);
 
         category.Name = request.Name;
         category.Description = request.Description;
-        await categoryWriteRepository.SaveAsync(cancellationToken);
+        await unitOfWork.CategoryWriteRepository.SaveAsync(cancellationToken);
         return new ApiResponse<UpdateCategoryCommandResponse>(true);
     }
 }

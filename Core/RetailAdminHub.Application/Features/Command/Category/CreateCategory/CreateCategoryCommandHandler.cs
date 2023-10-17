@@ -1,26 +1,26 @@
 ﻿using MediatR;
-using RetailAdminHub.Application.Repositories.CategoryRepository;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.Application.Features.Command.Category.CreateCategory;
 
 public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommandRequest, ApiResponse<CreateCategoryCommandResponse>>
 {
-    private readonly ICategoryWriteRepository _categoryWriteRepository;
+    private readonly IUnitOfWork unitOfWork;
 
-    public CreateCategoryCommandHandler(ICategoryWriteRepository categoryWriteRepository)
+    public CreateCategoryCommandHandler(IUnitOfWork unitOfWork)
     {
-        _categoryWriteRepository = categoryWriteRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<ApiResponse<CreateCategoryCommandResponse>> Handle(CreateCategoryCommandRequest request, CancellationToken cancellationToken)
     {
-        await _categoryWriteRepository.AddAsync(new()
+        await unitOfWork.CategoryWriteRepository.AddAsync(new()
         {
             Name = request.Name,
             Description = request.Description,
         });
-        await _categoryWriteRepository.SaveAsync();
+        await unitOfWork.CategoryWriteRepository.SaveAsync();
         return new ApiResponse<CreateCategoryCommandResponse>(true);
     }
 }

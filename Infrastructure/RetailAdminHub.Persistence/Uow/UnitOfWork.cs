@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RetailAdminHub.Application.Abstractions.Uow;
+﻿using RetailAdminHub.Application.Abstractions.Uow;
+using RetailAdminHub.Application.Repositories.AccountRepository;
+using RetailAdminHub.Application.Repositories.CategoryRepository;
+using RetailAdminHub.Application.Repositories.ProductRepository;
 using RetailAdminHub.Persistence.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RetailAdminHub.Persistence.Repositories.AccountRepository;
+using RetailAdminHub.Persistence.Repositories.CategoryRepository;
+using RetailAdminHub.Persistence.Repositories.ProductRepository;
 
 namespace RetailAdminHub.Persistence.Uow;
 
@@ -16,6 +16,12 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(RetailAdminHubDbContext dbContext)
     {
         this.dbContext = dbContext;
+        ProductReadRepository = new ProductReadRepository(dbContext);
+        CategoryReadRepository = new CategoryReadRepository(dbContext);
+        AccountReadRepository = new AccountReadRepository(dbContext);
+        ProductWriteRepository = new ProductWriteRepository(dbContext);
+        CategoryWriteRepository = new CategoryWriteRepository(dbContext);
+        AccountWriteRepository = new AccountWriteRepository(dbContext);
     }
 
     public void Complete()
@@ -39,5 +45,11 @@ public class UnitOfWork : IUnitOfWork
             }
         }
     }
+    public IProductReadRepository ProductReadRepository { get; private set; }
+    public ICategoryReadRepository CategoryReadRepository { get; private set; }
+    public IAccountReadRepository AccountReadRepository { get; private set; }
+    public IProductWriteRepository ProductWriteRepository { get; private set; }
+    public ICategoryWriteRepository CategoryWriteRepository { get; private set; }
+    public IAccountWriteRepository AccountWriteRepository { get; private set; }
 }
 
