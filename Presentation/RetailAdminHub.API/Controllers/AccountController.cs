@@ -36,7 +36,6 @@ public class AccountController : ControllerBase
         return await mediator.Send(getByIdAccountQueryRequest);
     }
     [HttpPost]
-    [Authorize(Roles = "admin")]
     public async Task<ApiResponse<CreateAccountCommandResponse>> Post(CreateAccountCommandRequest createAccountCommandRequest)
     {
         return await mediator.Send(createAccountCommandRequest);

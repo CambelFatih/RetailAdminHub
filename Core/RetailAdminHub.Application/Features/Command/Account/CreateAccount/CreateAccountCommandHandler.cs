@@ -20,17 +20,22 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandR
     {
         Random rnd = new Random();
         int uniqueInt = rnd.Next();
+        request.Password = Md5.Control(request.Password.ToUpper());
         await accountWriteRepository.AddAsync(new()
         {
             AccountNumber = uniqueInt,
             Email = request.Email,
-            Password = Md5.Create(request.Password.ToUpper()),
+            Password = request.Password,
             FirstName = request.FirstName,
             LastName = request.LastName,
             Role = "admin"
            
         });
         await accountWriteRepository.SaveAsync();
-        return new ApiResponse<CreateAccountCommandResponse>(true);
+        var response = new CreateAccountCommandResponse()
+        {
+            AccountNumber = uniqueInt
+        };
+        return new ApiResponse<CreateAccountCommandResponse>(response);
     }
 }

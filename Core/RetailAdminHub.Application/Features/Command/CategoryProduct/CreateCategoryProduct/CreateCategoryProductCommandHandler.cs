@@ -28,9 +28,11 @@ public class CreateCategoryProductCommandHandler : IRequestHandler<CreateCategor
         if(category == null)
             return new ApiResponse<CreateCategoryProductCommandResponse>("Record Not Found");
         // Check if the product already has the category
-        if (product.Categories.Any(c => c.Id == category.Id))
-            return new ApiResponse<CreateCategoryProductCommandResponse>("Product already has the category");
-
+        if (product.Categories != null)
+        {
+            if (product.Categories.Any(c => c.Id == category.Id))
+                return new ApiResponse<CreateCategoryProductCommandResponse>("Product already has the category");
+        }
         await productWriteRepository.AddProductWithCategories(product, category, cancellationToken);
         return new ApiResponse<CreateCategoryProductCommandResponse>(true);
     }

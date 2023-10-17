@@ -2,5 +2,6 @@
 
 public class CreateAccountCommandResponse
 {
+    public int AccountNumber { get; set; }
 }
 

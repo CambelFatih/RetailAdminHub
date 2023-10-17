@@ -12,15 +12,7 @@ public class RetailAdminHubDbContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Account> Accounts { get; set; }
-    public DbSet<CategoryProduct> CategoryProducts { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // CategoryProduct entity tipinin birincil anahtarı olmadığını belirt
-        modelBuilder.Entity<CategoryProduct>().HasNoKey();
-
-        // Diğer entity tiplerinin konfigürasyonları burada yapılabilir
-    }
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var datas = ChangeTracker.Entries<BaseEntity>();

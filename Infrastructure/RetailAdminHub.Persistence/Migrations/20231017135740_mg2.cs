@@ -6,28 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RetailAdminHub.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class mg3 : Migration
+    public partial class mg2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "CategoryProducts",
-                columns: table => new
-                {
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                });
+            migrationBuilder.DropTable(
+                name: "CategoryProducts");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "CategoryProducts");
+            migrationBuilder.CreateTable(
+                name: "CategoryProducts",
+                columns: table => new
+                {
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
         }
     }
 }

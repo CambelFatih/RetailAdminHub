@@ -54,6 +54,17 @@ namespace RetailAdminHub.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CategoryProducts",
+                columns: table => new
+                {
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -110,6 +121,9 @@ namespace RetailAdminHub.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoryProduct");
+
+            migrationBuilder.DropTable(
+                name: "CategoryProducts");
 
             migrationBuilder.DropTable(
                 name: "Categories");

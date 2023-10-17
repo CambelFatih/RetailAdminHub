@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailAdminHub.Application.Features.Queries.CategoryProduct
+namespace RetailAdminHub.Application.Features.Queries.CategoryProduct.GetByIdCategoryProduct
 {
-    public class GetByIdCategoryProductQueryRequest 
+    public class GetByIdCategoryProductQueryRequest
     {
     }
 }

@@ -12,8 +12,8 @@ using RetailAdminHub.Persistence.Contexts;
 namespace RetailAdminHub.Persistence.Migrations
 {
     [DbContext(typeof(RetailAdminHubDbContext))]
-    [Migration("20231016233041_mg3")]
-    partial class mg3
+    [Migration("20231016234605_mg1")]
+    partial class mg1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
