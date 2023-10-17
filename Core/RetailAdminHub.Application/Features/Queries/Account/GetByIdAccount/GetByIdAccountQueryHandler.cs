@@ -18,7 +18,7 @@ public class GetByIdAccountQueryHandler : IRequestHandler<GetByIdAccountQueryReq
 
     public async Task<ApiResponse<GetByIdAccountQueryResponse>> Handle(GetByIdAccountQueryRequest request, CancellationToken cancellationToken)
     {
-        var category = await unitOfWork.AccountReadRepository.GetByIdAsync(request.Id, cancellationToken);
+        var category = await unitOfWork.AccountReadRepository.GetByIdAsync(request.Id, cancellationToken,false);
         if (category == null)
             return new ApiResponse<GetByIdAccountQueryResponse>("Record not found", false);
 

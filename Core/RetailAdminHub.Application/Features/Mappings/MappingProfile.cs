@@ -7,6 +7,7 @@ using RetailAdminHub.Application.Dto;
 using RetailAdminHub.Domain.Entities;
 using RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
 using RetailAdminHub.Application.Features.Queries.Account.GetByIdAccount;
+using RetailAdminHub.Application.Features.Command.Product.PatchProduct;
 
 namespace RetailAdminHub.Application.Features.Mappings;
 
@@ -22,10 +23,12 @@ public class MappingProfile : Profile
         CreateMap<Product, GetByIdProductQueryResponse>();
         CreateMap<Account, GetByIdAccountQueryResponse>();
 
+        CreateMap<Product, PatchProductCommandRequest>();
 
         CreateMap<Product, ProductSummaryDto>();
         CreateMap<Product, ProductDetailDto>();
         CreateMap<Category, CategorySummaryDto>();
+
     }
 }
 

@@ -9,9 +9,6 @@ using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Persistence.Repositories.AccountRepository;
 using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Persistence.Uow;
-using RetailAdminHub.Application.Validators;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 
 namespace RetailAdminHub.Persistence
 {

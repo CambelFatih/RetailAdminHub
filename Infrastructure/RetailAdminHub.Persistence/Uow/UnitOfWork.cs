@@ -1,4 +1,5 @@
-﻿using RetailAdminHub.Application.Abstractions.Uow;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Application.Repositories.ProductRepository;
@@ -12,6 +13,7 @@ namespace RetailAdminHub.Persistence.Uow;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly RetailAdminHubDbContext dbContext;
+    private IDbContextTransaction transaction;
 
     public UnitOfWork(RetailAdminHubDbContext dbContext)
     {
@@ -41,9 +43,13 @@ public class UnitOfWork : IUnitOfWork
             catch (Exception ex)
             {
                 transaction.Rollback();
-               // Log.Error("CompleteTransactionError", ex); 
+                // Log.Error("CompleteTransactionError", ex); 
             }
         }
+    }
+    public IDbContextTransaction BeginTransaction()
+    {
+        return dbContext.Database.BeginTransaction();
     }
     public IProductReadRepository ProductReadRepository { get; private set; }
     public ICategoryReadRepository CategoryReadRepository { get; private set; }

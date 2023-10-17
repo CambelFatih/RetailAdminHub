@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RetailAdminHub.API.Extensions.Middleware;
 using RetailAdminHub.Application;
+using RetailAdminHub.Application.Helpers;
 using RetailAdminHub.Application.Validators;
 using RetailAdminHub.Domain.Base.Logger;
 using RetailAdminHub.Domain.Base.Token;
@@ -46,6 +47,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilter>();
+    options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
 }).ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = false);
 
 

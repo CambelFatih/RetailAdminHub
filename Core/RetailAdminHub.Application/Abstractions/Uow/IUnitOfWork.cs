@@ -1,4 +1,5 @@
-﻿using RetailAdminHub.Application.Repositories.AccountRepository;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Application.Repositories.ProductRepository;
 
@@ -9,6 +10,7 @@ public interface IUnitOfWork
 {
     void Complete();
     void CompleteTransaction();
+    IDbContextTransaction BeginTransaction();
 
     IProductReadRepository ProductReadRepository { get; }
     ICategoryReadRepository CategoryReadRepository { get; }

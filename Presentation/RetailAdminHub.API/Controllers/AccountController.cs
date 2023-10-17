@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Account.CreateAccount;
 using RetailAdminHub.Application.Features.Command.Account.RemoveAccount;
@@ -8,8 +7,6 @@ using RetailAdminHub.Application.Features.Command.Account.UpdateAccount;
 using RetailAdminHub.Application.Features.Queries.Account.GetAllAccount;
 using RetailAdminHub.Application.Features.Queries.Account.GetByIdAccount;
 using RetailAdminHub.Domain.Base.Response;
-using System.Data;
-using System.Security.Claims;
 
 namespace RetailAdminHub.API.Controllers;
 

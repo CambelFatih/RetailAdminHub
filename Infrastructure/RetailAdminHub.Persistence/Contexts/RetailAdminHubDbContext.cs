@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RetailAdminHub.Domain.Entities;
 using RetailAdminHub.Domain.Entities.Common;
 namespace RetailAdminHub.Persistence.Contexts;
@@ -27,7 +26,8 @@ public class RetailAdminHubDbContext : DbContext
                     break;
                 case EntityState.Modified:
                     data.Entity.UpdateDate = DateTime.UtcNow;
-                    data.Entity.UpdateUserId = CurrentUserId;
+                    if(CurrentUserId!=null)
+                        data.Entity.UpdateUserId = CurrentUserId;
                     break;
             }
         }

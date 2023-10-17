@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Product.CreateProduct;
+using RetailAdminHub.Application.Features.Command.Product.PatchProduct;
 using RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
 using RetailAdminHub.Application.Features.Command.Product.UpdateProduct;
 using RetailAdminHub.Application.Features.Queries.Product.GetAllProduct;
 using RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
 using RetailAdminHub.Domain.Base.Response;
-using System.Data;
-using System.Net;
 
 namespace RetailAdminHub.API.Controllers;
 
@@ -45,6 +45,17 @@ public class ProductController : ControllerBase
     {
         return await mediator.Send(updateProductCommandRequest);
     }
+    [HttpPatch("{id}")]
+    public async Task<ApiResponse<PatchProductCommandResponse>> Patch(string id, [FromBody] JsonPatchDocument<PatchProductCommandRequest> patch)
+    {
+        var command = new PatchProductCommandRequest
+        {
+            Id = id,
+            PatchDocument = patch // Store JsonPatchDocument in PatchProductCommandRequest
+        };
+        return await mediator.Send(command);
+    }
+
     [HttpDelete("{Id}")]
     [Authorize(Roles = "admin")]
     public async Task<ApiResponse<RemoveProductCommandResponse>> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
@@ -52,5 +63,3 @@ public class ProductController : ControllerBase
         return await mediator.Send(removeProductCommandRequest);
     }
 }
-
-

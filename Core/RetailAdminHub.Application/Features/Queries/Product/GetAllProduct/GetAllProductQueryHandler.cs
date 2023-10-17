@@ -20,7 +20,7 @@ public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryReque
     async Task<ApiResponse<GetAllProductQueryResponse>> IRequestHandler<GetAllProductQueryRequest, ApiResponse<GetAllProductQueryResponse>>.Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
     {
         var totalProductCount = unitOfWork.ProductReadRepository.GetAll(false).Where(x => x.IsActive).Count();
-        var products = await unitOfWork.ProductReadRepository.GetProductsPagedWithCategoriesAsync(request.Page, request.Size);
+        var products = await unitOfWork.ProductReadRepository.GetProductsPagedWithCategoriesAsync(request.Page, request.Size, cancellationToken);
         var productDTOs = mapper.Map<List<ProductDetailDto>>(products);
         var response = new GetAllProductQueryResponse
         {

@@ -24,14 +24,14 @@ public class ProductReadRepository : ReadRepository<Product>, IProductReadReposi
             .Include(p => p.Categories)
             .FirstOrDefaultAsync(p => p.Id == parsedId, cancellationToken);
     }
-    public async Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size)
+    public async Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size, CancellationToken cancellationToken)
     {
         return await context.Products
                                 .Where(x => x.IsActive)
                                 .Include(p => p.Categories)
                                 .Skip(page * size)
                                 .Take(size)
-                                .ToListAsync();
+                                .ToListAsync(cancellationToken);
     }
 
 }

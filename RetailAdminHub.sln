@@ -5,27 +5,24 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{171D6E69-4FFE-417F-B4BB-4E87247E661A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailAdminHub.Domain", "Core\RetailAdminHub.Domain\RetailAdminHub.Domain.csproj", "{713B7CEF-9CE4-4106-AE1F-4034300A89D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailAdminHub.Domain", "Core\RetailAdminHub.Domain\RetailAdminHub.Domain.csproj", "{713B7CEF-9CE4-4106-AE1F-4034300A89D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailAdminHub.Application", "Core\RetailAdminHub.Application\RetailAdminHub.Application.csproj", "{FB1DBADE-D9E7-4F4E-A1F0-8B5C025EBCD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailAdminHub.Application", "Core\RetailAdminHub.Application\RetailAdminHub.Application.csproj", "{FB1DBADE-D9E7-4F4E-A1F0-8B5C025EBCD9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{DB96570F-A230-4985-A351-499E835D4CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailAdminHub.Infrastructure", "Infrastructure\RetailAdminHub.Infrastructure\RetailAdminHub.Infrastructure.csproj", "{DFEDB82E-02DF-49A4-A80D-7FAF4D4D3885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailAdminHub.Infrastructure", "Infrastructure\RetailAdminHub.Infrastructure\RetailAdminHub.Infrastructure.csproj", "{DFEDB82E-02DF-49A4-A80D-7FAF4D4D3885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailAdminHub.Persistence", "Infrastructure\RetailAdminHub.Persistence\RetailAdminHub.Persistence.csproj", "{07095464-5713-4754-8E03-4938C13ED0BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailAdminHub.Persistence", "Infrastructure\RetailAdminHub.Persistence\RetailAdminHub.Persistence.csproj", "{07095464-5713-4754-8E03-4938C13ED0BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{8BC6D14F-6B98-42B3-890D-081E84C90EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailAdminHub.API", "Presentation\RetailAdminHub.API\RetailAdminHub.API.csproj", "{D5B98B56-9688-47F1-B7D4-6BB126CD72D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailAdminHub.API", "Presentation\RetailAdminHub.API\RetailAdminHub.API.csproj", "{D5B98B56-9688-47F1-B7D4-6BB126CD72D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{713B7CEF-9CE4-4106-AE1F-4034300A89D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -49,11 +46,17 @@ Global
 		{D5B98B56-9688-47F1-B7D4-6BB126CD72D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5B98B56-9688-47F1-B7D4-6BB126CD72D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{713B7CEF-9CE4-4106-AE1F-4034300A89D0} = {171D6E69-4FFE-417F-B4BB-4E87247E661A}
 		{FB1DBADE-D9E7-4F4E-A1F0-8B5C025EBCD9} = {171D6E69-4FFE-417F-B4BB-4E87247E661A}
 		{DFEDB82E-02DF-49A4-A80D-7FAF4D4D3885} = {DB96570F-A230-4985-A351-499E835D4CC7}
 		{07095464-5713-4754-8E03-4938C13ED0BD} = {DB96570F-A230-4985-A351-499E835D4CC7}
 		{D5B98B56-9688-47F1-B7D4-6BB126CD72D2} = {8BC6D14F-6B98-42B3-890D-081E84C90EB3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBE3BADC-50C0-4930-BD4C-260F90F6F5B1}
 	EndGlobalSection
 EndGlobal
