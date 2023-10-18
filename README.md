@@ -72,6 +72,26 @@ The project follows the principles of Onion Architecture, which is a layered arc
 
 These patterns have been employed in the project's design.
 
+## Swagger UI 
+![SwaggerUI](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b86fbee3-d2af-4b40-9fa3-06e6cda37dc5)
+![AccountPost](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/bf3eddc1-70d2-412f-8b14-748bffcaeef7)
+![Token](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/584a23c0-c170-42d9-a708-05d022c8ad85)
+![TokenTest](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/cbec8f62-7920-491f-b1c4-b96833108ffc)
+![AccountGet](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/494ce3ae-c3e3-4317-9d58-9606218a7835)
+![ProductPost](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/d4c3b3f9-e99f-43c2-9679-ac6d41c04941)
+![ProductGet](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b46d2164-d3d7-4f6c-85dc-4a005871c371)
+![CategoryPost](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/a56e5006-77c6-4318-8111-60bc59a3ab08)
+![CategoryGet](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/e6f2f5f4-c87b-4c8b-9590-279ccbcca78e)
+![CategoryProductCreatePost](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/2741a6fb-c380-4889-8879-e96334879fa5)
+![CategoryProductCreateGetFromProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/6ddc267e-5816-4deb-933f-757462fea2ad)
+![CategoryProductGetFromCategoryByID](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/7c77f925-5f88-4139-9f2a-fb784fd1d50b)
+![CategoryProductRelationGetByIdProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b26549ce-af1d-4798-8917-409e426bba8a)
+![patchProductStock](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/f48d3877-a649-4b32-ae76-5b18987b2a60)
+![PatchProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/c550ff9e-7d79-4742-91f4-8bd14a4ec8d7)
+![PATCHSONUCproduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/6d07011b-37d3-4461-82cf-261d21009ac0)
+
+![CategoryProductRemoveRelation](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/2a73f6a5-4953-41d0-9207-34bfe60e96a7)
+![CategoryProductRemoveRelationResult](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/c2e50743-de62-4af4-aa39-4e6bb8e5905b)
 
 ##### Patch Method
 Example patch request bodys, You can use the sample request bodys code below
