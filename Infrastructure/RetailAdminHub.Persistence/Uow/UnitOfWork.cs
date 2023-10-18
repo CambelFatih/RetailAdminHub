@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
+using RetailAdminHub.Application.Abstractions.Services;
 using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
@@ -7,13 +8,13 @@ using RetailAdminHub.Persistence.Contexts;
 using RetailAdminHub.Persistence.Repositories.AccountRepository;
 using RetailAdminHub.Persistence.Repositories.CategoryRepository;
 using RetailAdminHub.Persistence.Repositories.ProductRepository;
+using RetailAdminHub.Persistence.Services;
 
 namespace RetailAdminHub.Persistence.Uow;
 
 public class UnitOfWork : IUnitOfWork
 {
     private readonly RetailAdminHubDbContext dbContext;
-    private IDbContextTransaction transaction;
 
     public UnitOfWork(RetailAdminHubDbContext dbContext)
     {
@@ -24,6 +25,9 @@ public class UnitOfWork : IUnitOfWork
         ProductWriteRepository = new ProductWriteRepository(dbContext);
         CategoryWriteRepository = new CategoryWriteRepository(dbContext);
         AccountWriteRepository = new AccountWriteRepository(dbContext);
+        AccountService = new AccountService();
+        CategoryService = new CategoryService();
+        ProductService = new ProductService();
     }
 
     public void Complete()
@@ -57,5 +61,8 @@ public class UnitOfWork : IUnitOfWork
     public IProductWriteRepository ProductWriteRepository { get; private set; }
     public ICategoryWriteRepository CategoryWriteRepository { get; private set; }
     public IAccountWriteRepository AccountWriteRepository { get; private set; }
+    public IAccountService AccountService { get; private set; }
+    public IProductService ProductService { get; private set; }
+    public ICategoryService CategoryService { get; private set; }
 }
 

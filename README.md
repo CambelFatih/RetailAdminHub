@@ -2,7 +2,8 @@
 ## Project Overview
 The project follows the principles of Onion Architecture, which is a layered architectural pattern that emphasizes separation of concerns and maintainability.
 
-![onion](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/2d713cd8-df14-4d33-8a40-d76e40209b23)
+![onion](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/bb37b70f-59b7-40ee-a65c-c063c301bba7)
+
 
 ### Core Layer (RetailAdminHub.Domain)
 - Defines core domain logic and models.
@@ -71,6 +72,8 @@ The project follows the principles of Onion Architecture, which is a layered arc
 - Abstracted database operations to perform database operations consistently. Classes like `ReadRepository` and `WriteRepository` represent this pattern.
 
 These patterns have been employed in the project's design.
+
+![SwaggerUI](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b86fbee3-d2af-4b40-9fa3-06e6cda37dc5)
 
 
 ##### Patch Method

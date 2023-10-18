@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
+using RetailAdminHub.Application.Abstractions.Services;
 using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Application.Repositories.ProductRepository;
@@ -19,5 +20,9 @@ public interface IUnitOfWork
     IProductWriteRepository ProductWriteRepository { get; }
     ICategoryWriteRepository CategoryWriteRepository { get; }
     IAccountWriteRepository AccountWriteRepository { get; }
+
+    IAccountService AccountService { get; }
+    ICategoryService CategoryService { get; }
+    IProductService ProductService { get; }
 }
 
