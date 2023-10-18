@@ -11,6 +11,10 @@ namespace RetailAdminHub.Application
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly));
             services.AddHttpClient();
+
+            // Configure FluentValidation for request validation
+
+            services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<BaseValidator>();
         }
     }

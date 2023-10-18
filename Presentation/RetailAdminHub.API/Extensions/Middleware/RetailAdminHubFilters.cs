@@ -2,6 +2,9 @@
 using Serilog;
 
 namespace RetailAdminHub.API.Extensions.Middleware;
+/// <summary>
+/// Resource filter for logging resource-related actions.
+/// </summary>
 public class LogResourceFilter : IResourceFilter
 {
     public void OnResourceExecuted(ResourceExecutedContext context)
@@ -14,7 +17,9 @@ public class LogResourceFilter : IResourceFilter
         Log.Information("LogResourceFilter.OnResourceExecuting");
     }
 }
-
+/// <summary>
+/// Action filter for logging action-related actions.
+/// </summary>
 public class LogActionFilter : IActionFilter
 {
     public void OnActionExecuted(ActionExecutedContext context)
@@ -48,7 +53,9 @@ public class LogResultFilter : IResultFilter
         Log.Information("LogResultFilter.OnResultExecuting");
     }
 }
-
+/// <summary>
+/// Exception filter for logging exceptions.
+/// </summary>
 public class LogExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)

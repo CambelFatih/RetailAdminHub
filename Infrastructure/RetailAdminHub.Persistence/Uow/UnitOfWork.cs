@@ -11,7 +11,9 @@ using RetailAdminHub.Persistence.Repositories.ProductRepository;
 using RetailAdminHub.Persistence.Services;
 
 namespace RetailAdminHub.Persistence.Uow;
-
+/// <summary>
+/// Represents a unit of work for database operations.
+/// </summary>
 public class UnitOfWork : IUnitOfWork
 {
     private readonly RetailAdminHubDbContext dbContext;
@@ -25,16 +27,20 @@ public class UnitOfWork : IUnitOfWork
         ProductWriteRepository = new ProductWriteRepository(dbContext);
         CategoryWriteRepository = new CategoryWriteRepository(dbContext);
         AccountWriteRepository = new AccountWriteRepository(dbContext);
-        AccountService = new AccountService();
-        CategoryService = new CategoryService();
-        ProductService = new ProductService();
+        AccountService = new AccountService(this);
+        CategoryService = new CategoryService(this);
+        ProductService = new ProductService(this);
     }
-
+    /// <summary>
+    /// Commits the pending changes to the database.
+    /// </summary>
     public void Complete()
     {
         dbContext.SaveChanges();
     }
-
+    /// <summary>
+    /// Completes a transaction by committing or rolling back based on success or failure.
+    /// </summary>
     public void CompleteTransaction()
     {
         using (var transaction = dbContext.Database.BeginTransaction())

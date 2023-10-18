@@ -11,7 +11,9 @@ using RetailAdminHub.Application.Features.Queries.Product.GetByIdProduct;
 using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.API.Controllers;
-
+/// <summary>
+/// Controller for managing products.
+/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class ProductController : ControllerBase
@@ -21,30 +23,56 @@ public class ProductController : ControllerBase
     {
         this.mediator = mediator;
     }
+    /// <summary>
+    /// Retrieves a list of all products.
+    /// </summary>
+    /// <param name="getAllProductQueryRequest">The request to get all products.</param>
+    /// <returns>A response containing the list of products.</returns>
+    [HttpGet]
     [HttpGet]
     [Authorize(Roles = "admin")]
     public async Task<ApiResponse<GetAllProductQueryResponse>> Get([FromRoute] GetAllProductQueryRequest getAllProductQueryRequest) 
     {
         return  await mediator.Send(getAllProductQueryRequest);
     }
+    /// <summary>
+    /// Retrieves a product by its ID.
+    /// </summary>
+    /// <param name="getByIdProductQueryRequest">The request to get a product by ID.</param>
+    /// <returns>A response containing the product information.</returns>
     [HttpGet("{Id}")]
     public async Task<ApiResponse<GetByIdProductQueryResponse>> Get([FromRoute] GetByIdProductQueryRequest getByIdProductQueryRequest)
     {
         return await mediator.Send(getByIdProductQueryRequest);
     }
-
+    /// <summary>
+    /// Creates a new product.
+    /// </summary>
+    /// <param name="createProductCommandRequest">The request to create a new product.</param>
+    /// <returns>A response containing the result of the product creation.</returns>
     [HttpPost]
     [Authorize(Roles = "admin")]
     public async Task<ApiResponse<CreateProductCommandResponse>> Post(CreateProductCommandRequest createProductCommandRequest)
     {
         return  await mediator.Send(createProductCommandRequest);
     }
+    /// <summary>
+    /// Updates an existing product.
+    /// </summary>
+    /// <param name="updateProductCommandRequest">The request to update a product.</param>
+    /// <returns>A response containing the result of the product update.</returns>
     [HttpPut]
     [Authorize(Roles = "admin")]
     public async Task<ApiResponse<UpdateProductCommandResponse>> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
     {
         return await mediator.Send(updateProductCommandRequest);
     }
+    /// <summary>
+    /// Patches an existing product based on the provided ID and patch document.
+    /// </summary>
+    /// <param name="id">The ID of the product to be patched.</param>
+    /// <param name="patch">The JSON patch document to apply the changes.</param>
+    /// <returns>A response containing the result of the product patch.</returns>
     [HttpPatch("{id}")]
     public async Task<ApiResponse<PatchProductCommandResponse>> Patch(string id, [FromBody] JsonPatchDocument<PatchProductCommandRequest> patch)
     {
@@ -55,7 +83,11 @@ public class ProductController : ControllerBase
         };
         return await mediator.Send(command);
     }
-
+    /// <summary>
+    /// Removes a product by its ID.
+    /// </summary>
+    /// <param name="removeProductCommandRequest">The request to remove a product by ID.</param>
+    /// <returns>A response containing the result of the product removal.</returns>
     [HttpDelete("{Id}")]
     [Authorize(Roles = "admin")]
     public async Task<ApiResponse<RemoveProductCommandResponse>> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
@@ -63,37 +95,32 @@ public class ProductController : ControllerBase
         return await mediator.Send(removeProductCommandRequest);
     }
 }
-/*  ---- Patch Method --- 
-Example patch request bodys, You can use the sample request bodys code below
-you can just update(replace) 
+/* Patch Method Instructions:
+   Example patch request bodies demonstrate how to update (replace) specific properties.
 
-1.name property update patch method request body
+   1. To update the 'name' property:
+      [
+        {
+          "op": "replace",
+          "path": "name",
+          "value": "NVDIA 4090 GPU"
+        }
+      ]
 
-[
-  {
-    "op": "replace",
-    "path": "name",
-    "value": "NVDIA 4090 GPU"
-  }
-]
+   2. To update the 'stock' property:
+      [
+        {
+          "path": "stock",
+          "value": 22
+        }
+      ]
 
-2.stock property update patch method request body
+   3. To update the 'price' property:
+      [
+        {
+          "path": "price",
+          "value": 33.5
+        }
+      ]
+*/
 
-[
-  {
-    "op": "replace",
-    "path": "stock",
-    "value": 22
-  }
-]
-
-3.price property update patch method request body
-
-[
-  {
-    "op": "replace",
-    "path": "price",
-    "value": 33.5
-  }
-]
- */

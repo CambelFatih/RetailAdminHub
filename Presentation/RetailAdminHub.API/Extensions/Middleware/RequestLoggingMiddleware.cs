@@ -3,6 +3,9 @@ using Microsoft.IO;
 using RetailAdminHub.Domain.Base.Logger;
 
 namespace RetailAdminHub.API.Extensions.Middleware;
+/// <summary>
+/// Middleware for logging HTTP requests and responses.
+/// </summary>
 public class RequestLoggingMiddleware
 {
     private readonly RequestDelegate next;
@@ -16,7 +19,10 @@ public class RequestLoggingMiddleware
         this.requestResponseHandler = requestResponseHandler;
         this.recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
     }
-
+    /// <summary>
+    /// Invokes the request logging middleware to log HTTP requests and responses.
+    /// </summary>
+    /// <param name="context">The HTTP context.</param>
     public async Task Invoke(HttpContext context)
     {
         Log.Information("LogRequestLoggingMiddleware.Invoke");
@@ -51,7 +57,9 @@ public class RequestLoggingMiddleware
             context.Response.Body = originalBody;
         }
     }
-
+    /// <summary>
+    /// Formats the response details for logging.
+    /// </summary>
     private string FormatResponse(HttpContext context, MemoryStream newResponseBody)
     {
         HttpRequest request = context.Request;
@@ -65,7 +73,9 @@ public class RequestLoggingMiddleware
                $"StatusCode: {response.StatusCode} {Environment.NewLine}" +
                $"Response Body: {ReadStreamInChunks(newResponseBody)}";
     }
-
+    /// <summary>
+    /// Formats the request details for logging.
+    /// </summary>
     private async Task<string> FormatRequest(HttpContext context)
     {
         HttpRequest request = context.Request;

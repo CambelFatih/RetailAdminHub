@@ -1,12 +1,9 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RetailAdminHub.API.Extensions.Middleware;
 using RetailAdminHub.Application;
 using RetailAdminHub.Application.Helpers;
-using RetailAdminHub.Application.Validators;
 using RetailAdminHub.Domain.Base.Logger;
 using RetailAdminHub.Domain.Base.Token;
 using RetailAdminHub.Infrastructure.Filters;
@@ -20,8 +17,9 @@ builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-
+// Configure appsettings.json
 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+// Configure Logger
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(config).CreateLogger();
 Log.Information("App server is starting.");
 
@@ -29,7 +27,7 @@ Log.Information("App server is starting.");
 var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 
-
+// Configure CORS policy to allow any origin, method, and header
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
@@ -49,11 +47,6 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<ValidationFilter>();
     options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
 }).ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = false);
-
-
-
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<BaseValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -116,9 +109,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-//app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
-app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseMiddleware<HeartBeatMiddleware>();
+// Configure request-response logging middleware
 Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
 {
     Log.Information("-------------Request-Begin------------");
@@ -127,9 +118,11 @@ Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
     Log.Information(requestProfilerModel.Response);
     Log.Information("-------------Request-End------------");
 };
+// Configure and use middleware for error handling, heartbeat, request logging, HTTPS redirection, authentication, authorization, and user context
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<HeartBeatMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>(requestResponseHandler);
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserContextMiddleware>();
