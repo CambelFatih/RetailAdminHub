@@ -2,16 +2,24 @@
 using RetailAdminHub.Domain.Entities;
 using RetailAdminHub.Domain.Entities.Common;
 namespace RetailAdminHub.Persistence.Contexts;
-
+/// <summary>
+/// DbContext for RetailAdminHub application, representing the database context.
+/// </summary>
 public class RetailAdminHubDbContext : DbContext
 {
+    /// <summary>
+    /// Gets or sets the current user's ID for context tracking.
+    /// </summary>
     public Guid CurrentUserId { get; set; } = Guid.Empty;
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RetailAdminHubDbContext"/> class.
+    /// </summary>
+    /// /// <param name="options">The options to be used by the context.</param>
     public RetailAdminHubDbContext(DbContextOptions options) : base(options)
     { }
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Account> Accounts { get; set; }
-
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var datas = ChangeTracker.Entries<BaseEntity>();
