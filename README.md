@@ -92,6 +92,9 @@ These patterns have been employed in the project's design.
 
 ![CategoryProductRemoveRelation](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/2a73f6a5-4953-41d0-9207-34bfe60e96a7)
 ![CategoryProductRemoveRelationResult](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/c2e50743-de62-4af4-aa39-4e6bb8e5905b)
+![DeleteProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/ed57391f-f1cd-41b8-b7de-c0dcb5c34031)
+![ProductGet](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/897a707f-58f6-4a1e-b0f2-f9b5a1bae2ab)
+![removeProductRESULT](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/ebd2c854-841a-4763-812d-082d66b5bc59)
 
 ##### Patch Method
 Example patch request bodys, You can use the sample request bodys code below
