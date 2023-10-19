@@ -56,6 +56,129 @@ The project follows the principles of Onion Architecture, which is a layered arc
 ### Target Framework
 - **Target Framework:** .NET 7.0 (Used in all layers)
 
+## Database Connection with this project
+### Project Database Configuration Documentation
+
+This documentation provides instructions on how to configure the project to work with your own database on your local machine. The project uses PostgreSQL by default, but you can easily switch to another database system, such as MySQL, by following the outlined steps.
+
+### Requirements
+
+Before getting started, make sure you have Docker installed on your machine.
+
+#### Docker Installation
+
+If you don't have Docker installed, you can pull and run PostgreSQL in a Docker container as follows:
+
+```bash
+docker pull postgres
+docker run -d --name postgresCont -p 5432:5432 -e POSTGRES_PASSWORD=123 postgres
+```
+This command pulls the latest PostgreSQL Docker image, creates a container named postgresCont, maps port 5432, and sets the PostgreSQL password to 123. You can change the container name, port, and password as needed.
+
+### Step 2: Configure the Connection String
+In the **appsettings.json** file, modify the **ConnectionStrings** section to use PostgreSQL as follows:
+```json
+"ConnectionStrings": {
+  "PostgreSQL": "Host=localhost;Port=5432;Database=patika6;Username=postgres;Password=123;"
+}
+```
+### **ServiceRegistration.cs** File From Persistence Layer
+```csharp
+namespace RetailAdminHub.Persistence;
+
+/// <summary>
+/// This class contains extension methods to register persistence-related services in the service collection.
+/// </summary>
+public static class ServiceRegistration
+{
+    /// <summary>
+    /// Registers the necessary persistence services in the provided <paramref name="services"/>.
+    /// </summary>
+    /// <param name="services">The service collection to which services will be added.</param>
+    public static void AddPersistenceServices(this IServiceCollection services)
+    {
+        // Add DbContext for RetailAdminHubDbContext using Npgsql provider with the connection string from configuration.
+        services.AddDbContext<RetailAdminHubDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+        // Add UnitOfWork as a scoped service, which is tied to the scope of the HTTP request.
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+    }
+}
+```
+
+### **ServiceRegistration.cs** File From Persistence Layer
+```csharp
+namespace RetailAdminHub.Application;
+/// <summary>
+/// A class responsible for registering application services.
+/// </summary>
+public static class ServiceRegistration
+{
+    /// <summary>
+    /// Adds application services to the specified service collection.
+    /// </summary>
+    /// <param name="services">The service collection to which services will be added.</param>
+    public static void AddApplicationServices(this IServiceCollection services)
+    {
+        // Register MediatR services from the assembly containing this class.
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly));
+        // Add HttpClient services.
+        services.AddHttpClient();
+        // Configure FluentValidation for request validation.
+        // Register FluentValidation auto-validation for ASP.NET Core.
+        services.AddFluentValidationAutoValidation();
+        // Register validators from the assembly containing BaseValidator.
+        services.AddValidatorsFromAssemblyContaining<BaseValidator>();
+    }
+}
+```
+
+### **Program.cs** File From API Layer
+```csharp
+builder.Services.AddPersistenceServices();
+builder.Services.AddApplicationServices();
+```
+
+### **Configration.cs** File From Persistence Layer
+```csharp
+namespace RetailAdminHub.Persistence;
+/// <summary>
+/// Helper class to retrieve the connection string from the application's configuration.
+/// </summary>
+static class Configuration
+{
+    /// <summary>
+    /// Gets the connection string from the application's configuration.
+    /// </summary>
+    /// <returns>The connection string.</returns>
+    static public string ConnectionString
+    {
+        get
+        {
+            // Create a ConfigurationManager instance to access the configuration.
+            ConfigurationManager configurationManager = new();
+            try
+            {
+                // Set the base path and add the appsettings.json file for configuration.
+                configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/RetailAdminHub.API"));
+                configurationManager.AddJsonFile("appsettings.json");
+
+            }
+            catch
+            {
+                // If appsettings.json is not found, attempt to use appsettings.Production.json.
+                configurationManager.AddJsonFile("appsettings.Production.json");
+            }
+            // Retrieve and return the PostgreSQL connection string from the configuration.
+            var connectionString= configurationManager.GetConnectionString("PostgreSQL");
+            if (connectionString == null)
+                throw new ConfigurationException("PostgreSQL connection string not found in configuration.");
+            return connectionString;
+        }
+    }
+}
+
+```
+
 ## Design Patterns Used in the Project
 
 ### Unit Of Work Pattern
