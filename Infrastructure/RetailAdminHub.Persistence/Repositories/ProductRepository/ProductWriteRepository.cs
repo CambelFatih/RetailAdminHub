@@ -16,40 +16,38 @@ public class ProductWriteRepository : WriteRepository<Product>, IProductWriteRep
 
     public async Task AddProductWithCategories(Product product, Category category,CancellationToken cancellationToken)
     {
+        // Check if the product's Categories collection is null and create it if necessary
         if (product.Categories == null)
-            product.Categories = new List<Category>();  // Koleksiyonu oluştur
+            product.Categories = new List<Category>();
+        // Add the category to the product's Categories collection
         product.Categories.Add(category);
+        // Save the changes to the database
         await context.SaveChangesAsync(cancellationToken);
     }
     public async Task<bool> RemoveCategoryProductAsync(string productId, string categoryId)
     {
-
+        // Check if the provided product and category IDs are valid GUIDs
         if (!Guid.TryParse(productId, out Guid pProductId))
-        {
             return false;
-        }
         if (!Guid.TryParse(categoryId, out Guid pCategoryId))
-        {
             return false;
-        }
-
-        // Product'ı bul
+        // Find the product by its ID and include its Categories
         var product = await context.Products
             .Include(p => p.Categories)
             .FirstOrDefaultAsync(p => p.Id == pProductId);
 
         if (product != null)
         {
-            // Category'yi bul
+            // Find the category within the product's Categories collection
             var category = product.Categories.FirstOrDefault(c => c.Id == pCategoryId);
 
             if (category != null)
             {
-                // Category'yi Product'tan kaldır
+                // Remove the category from the product's Categories collection
                 product.Categories.Remove(category);
+                // Save changes to the database
                 int affectedRows = await context.SaveChangesAsync();
-
-                // Eğer en az bir satır güncellendi ise true döndür
+                // If at least one row was updated, return true
                 return affectedRows > 0;
             }
         }

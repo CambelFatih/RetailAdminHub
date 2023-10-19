@@ -14,7 +14,8 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandR
     }
 
     public async Task<ApiResponse<CreateProductCommandResponse>> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
-    {          
+    {
+        // Add a new product to the repository
         await unitOfWork.ProductWriteRepository.AddAsync(new()
         {
             Name = request.Name,
@@ -22,7 +23,9 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandR
             Stock = request.Stock,
             IsActive = true,
         });
+        // Save changes to the product repository
         await unitOfWork.ProductWriteRepository.SaveAsync();
+        // Return a response indicating a successful product creation
         return new ApiResponse<CreateProductCommandResponse>(true);    
     }
 }

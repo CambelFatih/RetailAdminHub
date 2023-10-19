@@ -23,10 +23,12 @@ public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommandReque
 
     public async Task<ApiResponse<CreateTokenCommandResponse>> Handle(CreateTokenCommandRequest request, CancellationToken cancellationToken)
     {
+        // Retrieve the user entity based on the provided account number
         var entity = await unitOfWork.AccountReadRepository.GetSingleAsync(x => x.AccountNumber == request.AccountNumber, cancellationToken);
+        // Check if the user entity exists
         if (entity == null)      
             return new ApiResponse<CreateTokenCommandResponse>("Invalid user informations");
-
+        // Check if the provided password matches the stored password
         var md5 = Md5.Create(request.Password.ToUpper());
         if (entity.Password != md5)
         {
@@ -36,10 +38,12 @@ public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommandReque
 
             return new ApiResponse<CreateTokenCommandResponse>("Invalid user informations");
         }
+        // Check if the user is active
         if (!entity.IsActive)
         {
             return new ApiResponse<CreateTokenCommandResponse>("Invalid user!");
         }
+        // Generate a JWT token for the user
         string token = Token(entity);
         CreateTokenCommandResponse tokenResponse = new()
         {
@@ -54,9 +58,10 @@ public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommandReque
 
     private string Token(RetailAdminHub.Domain.Entities.Account user)
     {
+        // Create claims for the user
         Claim[] claims = GetClaims(user);
         var secret = Encoding.ASCII.GetBytes(jwtConfig.Secret);
-
+        // Create a JWT token with the claims
         var jwtToken = new JwtSecurityToken(
             jwtConfig.Issuer,
             jwtConfig.Audience,
@@ -64,13 +69,14 @@ public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommandReque
             expires: DateTime.Now.AddMinutes(jwtConfig.AccessTokenExpiration),
             signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature)
         );
-
+        // Generate and return the access token
         string accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
         return accessToken;
     }
 
     private Claim[] GetClaims(RetailAdminHub.Domain.Entities.Account customer)
     {
+        // Define the claims for the user
         var claims = new[]
         {
             new Claim("Id", customer.Id.ToString()),

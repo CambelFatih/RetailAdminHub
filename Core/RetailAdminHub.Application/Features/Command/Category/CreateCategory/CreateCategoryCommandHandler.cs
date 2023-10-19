@@ -15,12 +15,15 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 
     public async Task<ApiResponse<CreateCategoryCommandResponse>> Handle(CreateCategoryCommandRequest request, CancellationToken cancellationToken)
     {
+        // Add a new category to the repository
         await unitOfWork.CategoryWriteRepository.AddAsync(new()
         {
             Name = request.Name,
             Description = request.Description,
         });
+        // Save changes to the category repository
         await unitOfWork.CategoryWriteRepository.SaveAsync();
+        // Return a response indicating a successful category creation
         return new ApiResponse<CreateCategoryCommandResponse>(true);
     }
 }

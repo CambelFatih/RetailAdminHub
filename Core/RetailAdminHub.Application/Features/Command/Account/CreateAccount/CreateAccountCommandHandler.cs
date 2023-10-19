@@ -16,9 +16,12 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandR
 
     public async Task<ApiResponse<CreateAccountCommandResponse>> Handle(CreateAccountCommandRequest request, CancellationToken cancellationToken)
     {
+        // Generate a random integer for the account number
         Random rnd = new Random();
         int uniqueInt = rnd.Next();
+        // Encrypt the password using the Md5.Control method
         request.Password = Md5.Control(request.Password.ToUpper());
+        // Add a new account to the repository
         await unitOfWork.AccountWriteRepository.AddAsync(new()
         {
             AccountNumber = uniqueInt,
@@ -29,11 +32,14 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommandR
             Role = "admin"
            
         });
+        // Save changes to the account repository
         await unitOfWork.AccountWriteRepository.SaveAsync();
+        // Create a response with the generated account number
         var response = new CreateAccountCommandResponse()
         {
             AccountNumber = uniqueInt
         };
+        // Return an ApiResponse containing the response data
         return new ApiResponse<CreateAccountCommandResponse>(response);
     }
 }

@@ -15,9 +15,11 @@ public class CreateCategoryProductCommandHandler : IRequestHandler<CreateCategor
 
     public async Task<ApiResponse<CreateCategoryProductCommandResponse>> Handle(CreateCategoryProductCommandRequest request, CancellationToken cancellationToken)
     {
+        // Retrieve the product and category by their respective IDs
         var product = await unitOfWork.ProductReadRepository.GetByIdAsync(request.ProductId,cancellationToken);
         var category = await unitOfWork.CategoryReadRepository.GetByIdAsync(request.CategoryId,cancellationToken);
-        if(product == null)
+        // Check if the product or category doesn't exist
+        if (product == null)
             return new ApiResponse<CreateCategoryProductCommandResponse>("Record Not Found1");
         if(category == null)
             return new ApiResponse<CreateCategoryProductCommandResponse>("Record Not Found");
@@ -27,7 +29,9 @@ public class CreateCategoryProductCommandHandler : IRequestHandler<CreateCategor
             if (product.Categories.Any(c => c.Id == category.Id))
                 return new ApiResponse<CreateCategoryProductCommandResponse>("Product already has the category");
         }
+        // Associate the product with the category
         await unitOfWork.ProductWriteRepository.AddProductWithCategories(product, category, cancellationToken);
+        // Return a response indicating a successful association
         return new ApiResponse<CreateCategoryProductCommandResponse>(true);
     }
 }

@@ -15,7 +15,9 @@ public class RemoveCategoryCommandHandler : IRequestHandler<RemoveCategoryComman
 
     public async Task<ApiResponse<RemoveCategoryCommandResponse>> Handle(RemoveCategoryCommandRequest request, CancellationToken cancellationToken)
     {
+        // Call the SoftDeleteById method to mark a category for deletion (soft delete).
         var result = await unitOfWork.CategoryWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        // Create an ApiResponse with the result of the removal operation.
         return new ApiResponse<RemoveCategoryCommandResponse>(result);
     }
 }

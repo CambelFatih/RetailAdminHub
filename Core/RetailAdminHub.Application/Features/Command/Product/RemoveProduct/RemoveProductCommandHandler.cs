@@ -15,7 +15,9 @@ public class RemoveProductCommandHandler : IRequestHandler<RemoveProductCommandR
 
     public async Task<ApiResponse<RemoveProductCommandResponse>> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
     {
+        // Call the SoftDeleteById method to mark a product for deletion (soft delete).
         var result = await unitOfWork.ProductWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        // Create an ApiResponse with the result of the removal operation.
         return new ApiResponse<RemoveProductCommandResponse>(result);
     }
 }

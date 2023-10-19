@@ -2,7 +2,6 @@
 using RetailAdminHub.Application.Abstractions.Uow;
 using RetailAdminHub.Domain.Base.Response;
 
-
 namespace RetailAdminHub.Application.Features.Command.Account.RemoveAccount;
 
 public class RemoveAccountCommandHandler : IRequestHandler<RemoveAccountCommandRequest, ApiResponse<RemoveAccountCommandResponse>>
@@ -16,7 +15,9 @@ public class RemoveAccountCommandHandler : IRequestHandler<RemoveAccountCommandR
 
     public async Task<ApiResponse<RemoveAccountCommandResponse>> Handle(RemoveAccountCommandRequest request, CancellationToken cancellationToken)
     {
+        // Call the SoftDeleteById method to mark an account for deletion (soft delete).
         var result = await unitOfWork.AccountWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        // Create an ApiResponse with the result of the removal operation.
         return new ApiResponse<RemoveAccountCommandResponse>(result);
     }
 }

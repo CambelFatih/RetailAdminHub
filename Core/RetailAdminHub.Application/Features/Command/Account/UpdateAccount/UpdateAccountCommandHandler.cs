@@ -16,10 +16,12 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommandR
 
     public async Task<ApiResponse<UpdateAccountCommandResponse>> Handle(UpdateAccountCommandRequest request, CancellationToken cancellationToken)
     {
+        // Retrieve the account to be updated by its ID
         var category = await unitOfWork.AccountReadRepository.GetByIdAsync(request.Id, cancellationToken);
-
+        // Check if the account exists
         if (category == null)
             return new ApiResponse<UpdateAccountCommandResponse>("Record not found", false);
+        // Update account properties if the request values are not "string"
         if (request.Email != null && request.Email != "string")
             category.Email = request.Email;
         if (request.Password != null && request.Password != "string")
@@ -30,7 +32,9 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommandR
             category.LastName = request.LastName;
         if (request.Role != null && request.Role != "string")
             category.Role = request.Role;
+        // Save the updated account
         await unitOfWork.AccountWriteRepository.SaveAsync(cancellationToken);
+        // Return a response indicating a successful update
         return new ApiResponse<UpdateAccountCommandResponse>(true);
     }
 }
