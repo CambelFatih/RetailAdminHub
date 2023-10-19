@@ -37,7 +37,9 @@ public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
     }
     public async Task<bool> RemoveAsync(string id)
     {
-        T model = await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+        if (!Guid.TryParse(id, out Guid parsedId))
+            return false;
+        T model = await Table.FirstOrDefaultAsync(data => data.Id == parsedId);
         if (model == null)
             return false;
         return Remove(model);            
@@ -49,10 +51,9 @@ public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
     }
     public async Task<bool> SoftDeleteById(string entityId, CancellationToken cancellationToken)
     {
-        if (!Guid.TryParse(entityId, out Guid parsedId))
-        {
+        if (!Guid.TryParse(entityId, out Guid parsedId))       
             return false;
-        }
+        
         var entity = await Table.FirstOrDefaultAsync(x => x.Id == parsedId, cancellationToken);
         if (entity == null)
             return false;
