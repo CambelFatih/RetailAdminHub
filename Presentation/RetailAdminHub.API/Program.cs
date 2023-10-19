@@ -85,20 +85,22 @@ builder.Services.AddAuthentication(x =>
 }).AddJwtBearer(x =>
 {
     var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>(); // JwtConfig ayarlarýný al
-
-    x.RequireHttpsMetadata = true;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
+    if (jwtConfig != null)
     {
-        ValidateIssuer = true,
-        ValidIssuer = jwtConfig.Issuer,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
-        ValidAudience = jwtConfig.Audience,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.FromMinutes(2)
-    };
+        x.RequireHttpsMetadata = true;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwtConfig.Issuer,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+            ValidAudience = jwtConfig.Audience,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(2)
+        };
+    }
 });
 
 var app = builder.Build();

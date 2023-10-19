@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
+using RetailAdminHub.Application.Exceptions;
+
 namespace RetailAdminHub.Persistence;
 /// <summary>
 /// Helper class to retrieve the connection string from the application's configuration.
@@ -28,7 +30,10 @@ static class Configuration
                 configurationManager.AddJsonFile("appsettings.Production.json");
             }
             // Retrieve and return the PostgreSQL connection string from the configuration.
-            return configurationManager.GetConnectionString("PostgreSQL");
+            var connectionString= configurationManager.GetConnectionString("PostgreSQL");
+            if (connectionString == null)
+                throw new ConfigurationException("PostgreSQL connection string not found in configuration.");
+            return connectionString;
         }
     }
 }

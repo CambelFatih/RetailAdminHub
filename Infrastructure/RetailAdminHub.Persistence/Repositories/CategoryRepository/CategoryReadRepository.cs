@@ -14,14 +14,18 @@ public class CategoryReadRepository : ReadRepository<Category>, ICategoryReadRep
     }
     public async Task<Category> GetCategoryWithProductsAsync(string categoryId, CancellationToken cancellationToken)
     {
-        if (!Guid.TryParse(categoryId, out Guid parsedId))
-        {
+        if (!Guid.TryParse(categoryId, out Guid parsedId))     
             throw new InvalidGuidException();
-        }
-        return await context.Categories
+        
+        var category = await context.Categories
             .Where(x => x.IsActive)
-            .Include(c => c.Products) // Ürünleri dahil ediyoruz.
+            .Include(c => c.Products)
             .FirstOrDefaultAsync(c => c.Id == parsedId, cancellationToken);
+
+        if (category == null)      
+            throw new NotFoundProductException(); // Or another appropriate exception.
+       
+        return category;
     }
 }
 

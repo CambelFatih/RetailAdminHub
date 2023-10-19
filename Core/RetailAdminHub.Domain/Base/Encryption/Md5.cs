@@ -13,7 +13,6 @@ public static class Md5
 
         }
     }
-
     public static bool IsHashed(string input)
     {
         // Check if the input is a valid MD5 hash (32 hexadecimal characters)
@@ -28,7 +27,6 @@ public static class Md5
 
         return true;
     }
-
     public static string Control(string input)
     {
         if (!IsHashed(input))

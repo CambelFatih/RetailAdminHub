@@ -34,8 +34,7 @@ public class RetailAdminHubDbContext : DbContext
                     break;
                 case EntityState.Modified:
                     data.Entity.UpdateDate = DateTime.UtcNow;
-                    if(CurrentUserId!=null)
-                        data.Entity.UpdateUserId = CurrentUserId;
+                    data.Entity.UpdateUserId = CurrentUserId;
                     break;
             }
         }

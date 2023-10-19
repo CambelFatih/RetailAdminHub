@@ -1,9 +1,9 @@
 ﻿using RetailAdminHub.Domain.Entities;
 
-namespace RetailAdminHub.Application.Repositories.CategoryRepository
+namespace RetailAdminHub.Application.Repositories.CategoryRepository;
+
+public interface ICategoryReadRepository : IReadRepository<Category>
 {
-    public interface ICategoryReadRepository : IReadRepository<Category>
-    {
-        public Task<Category> GetCategoryWithProductsAsync(string categoryId, CancellationToken cancellationToken);
-    }
+    public Task<Category> GetCategoryWithProductsAsync(string categoryId, CancellationToken cancellationToken);
 }
+

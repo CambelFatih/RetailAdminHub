@@ -4,7 +4,6 @@ using RetailAdminHub.Application.Repositories.AccountRepository;
 using RetailAdminHub.Application.Repositories.CategoryRepository;
 using RetailAdminHub.Application.Repositories.ProductRepository;
 
-
 namespace RetailAdminHub.Application.Abstractions.Uow;
 
 public interface IUnitOfWork

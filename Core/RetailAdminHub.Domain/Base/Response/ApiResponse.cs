@@ -9,7 +9,7 @@ public partial class ApiResponse
         return JsonSerializer.Serialize(this);
     }
 
-    public ApiResponse(string message = null)
+    public ApiResponse(string? message = null)
     {
         if (string.IsNullOrWhiteSpace(message))
         {
@@ -22,7 +22,7 @@ public partial class ApiResponse
         }
     }
     public bool Success { get; set; }
-    public string Message { get; set; }
+    public string? Message { get; set; } = "";
 }
 
 public partial class ApiResponse<T>

@@ -7,6 +7,6 @@ namespace RetailAdminHub.Application.Features.Command.Category.RemoveCategory;
 
 public class RemoveCategoryCommandRequest : IRequest<ApiResponse<RemoveCategoryCommandResponse>>
 {
-    public string Id { get; set; }
+    public string Id { get; set; }= string.Empty;
 }
 

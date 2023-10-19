@@ -1,15 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RetailAdminHub.Application.Repositories;
 using RetailAdminHub.Domain.Entities.Common;
 using RetailAdminHub.Persistence.Contexts;
 using RetailAdminHub.Application.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RetailAdminHub.Persistence.Repositories;
 
@@ -42,7 +36,12 @@ public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
         var query = Table.AsQueryable();
         if (!tracking)
             query = Table.AsNoTracking();
-        return await query.FirstOrDefaultAsync(method, cancellationToken);
+        var result = await query.FirstOrDefaultAsync(method, cancellationToken);
+        // Handle the case when no result is found, e.g., throw an exception or return a default value.
+        if (result == null)                   
+            throw new NotFoundException(); // Adjust the exception type and message accordingly.
+ 
+        return result;
     }
     public async Task<T> GetByIdAsync(string id, CancellationToken cancellationToken = default, bool tracking = true)
     {
@@ -52,7 +51,11 @@ public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
         var query = Table.AsQueryable();
         if (!tracking)
             query = query.AsNoTracking();
-        return await query.FirstOrDefaultAsync(data => data.Id == parsedId, cancellationToken);
+        var result = await query.FirstOrDefaultAsync(data => data.Id == parsedId, cancellationToken);
+        if (result == null)
+            throw new NotFoundException(); // Adjust the exception type and message accordingly.
+
+        return result;
     }
 }
 

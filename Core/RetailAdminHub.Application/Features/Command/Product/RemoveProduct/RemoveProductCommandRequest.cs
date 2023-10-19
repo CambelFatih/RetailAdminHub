@@ -5,6 +5,6 @@ namespace RetailAdminHub.Application.Features.Command.Product.RemoveProduct;
 
 public class RemoveProductCommandRequest : IRequest<ApiResponse<RemoveProductCommandResponse>>
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 }
 

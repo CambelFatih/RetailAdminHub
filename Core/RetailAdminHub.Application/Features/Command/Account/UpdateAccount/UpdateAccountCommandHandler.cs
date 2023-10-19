@@ -20,15 +20,15 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommandR
 
         if (category == null)
             return new ApiResponse<UpdateAccountCommandResponse>("Record not found", false);
-        if (request.Email != null || request.Email != "string")
+        if (request.Email != null && request.Email != "string")
             category.Email = request.Email;
-        if (request.Password != null || request.Password != "string")
+        if (request.Password != null && request.Password != "string")
             category.Password = request.Password;
-        if (request.FirstName != null || request.FirstName != "string")
+        if (request.FirstName != null && request.FirstName != "string")
             category.FirstName = request.FirstName;
-        if (request.LastName != null || request.LastName != "string")
+        if (request.LastName != null && request.LastName != "string")
             category.LastName = request.LastName;
-        if (request.Role != null || request.Role != "string")
+        if (request.Role != null && request.Role != "string")
             category.Role = request.Role;
         await unitOfWork.AccountWriteRepository.SaveAsync(cancellationToken);
         return new ApiResponse<UpdateAccountCommandResponse>(true);

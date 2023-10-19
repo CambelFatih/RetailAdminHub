@@ -19,10 +19,16 @@ public class ProductReadRepository : ReadRepository<Product>, IProductReadReposi
         {
             throw new InvalidGuidException();
         }
-        return await context.Products
+        var product = await context.Products
             .Where(x => x.IsActive)
             .Include(p => p.Categories)
             .FirstOrDefaultAsync(p => p.Id == parsedId, cancellationToken);
+        if (product == null)
+        {
+            // You can throw an exception or return a default value.
+            throw new NotFoundProductException(); // Or return a default product.
+        }
+        return product;
     }
     public async Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size, CancellationToken cancellationToken)
     {
@@ -33,6 +39,5 @@ public class ProductReadRepository : ReadRepository<Product>, IProductReadReposi
                                 .Take(size)
                                 .ToListAsync(cancellationToken);
     }
-
 }
 

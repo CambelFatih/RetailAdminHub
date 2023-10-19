@@ -5,7 +5,7 @@ namespace RetailAdminHub.Application.Features.Command.CategoryProduct.CreateCate
 
 public class CreateCategoryProductCommandRequest : IRequest<ApiResponse<CreateCategoryProductCommandResponse>>
 {
-    public string ProductId { get; set; }
-    public string CategoryId { get; set; } 
+    public string ProductId { get; set; } = string.Empty;
+    public string CategoryId { get; set; } = string.Empty;
 }
 

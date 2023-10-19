@@ -50,7 +50,7 @@ public class UnitOfWork : IUnitOfWork
                 dbContext.SaveChanges();
                 transaction.Commit();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 transaction.Rollback();
                 // Log.Error("CompleteTransactionError", ex); 

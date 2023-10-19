@@ -1,9 +1,6 @@
-﻿
-
-namespace RetailAdminHub.Application.Abstractions.Services;
+﻿namespace RetailAdminHub.Application.Abstractions.Services;
 
 public interface IProductService
 {
-
 }
 

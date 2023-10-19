@@ -7,11 +7,11 @@ namespace RetailAdminHub.Domain.Entities;
 
 public class Product : BaseEntity
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public int Stock { get; set; }
     public float Price { get; set; }
     // Many-to-many 
-    public ICollection<Category> Categories { get; set; }
+    public ICollection<Category> Categories { get; set; } = new List<Category>();
 }
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
