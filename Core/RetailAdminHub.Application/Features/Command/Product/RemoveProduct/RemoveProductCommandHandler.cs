@@ -17,6 +17,8 @@ public class RemoveProductCommandHandler : IRequestHandler<RemoveProductCommandR
     {
         // Call the SoftDeleteById method to mark a product for deletion (soft delete).
         var result = await unitOfWork.ProductWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        if(result==false)
+            return new ApiResponse<RemoveProductCommandResponse>("Record not found", false);
         // Create an ApiResponse with the result of the removal operation.
         return new ApiResponse<RemoveProductCommandResponse>(result);
     }

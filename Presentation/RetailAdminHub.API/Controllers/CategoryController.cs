@@ -5,7 +5,6 @@ using RetailAdminHub.Application.Features.Queries.Category.GetByIdCategory;
 using RetailAdminHub.Application.Features.Queries.Category.GetAllCategory;
 using RetailAdminHub.Application.Features.Command.Category.UpdateCategory;
 using RetailAdminHub.Application.Features.Command.Category.RemoveCategory;
-using RetailAdminHub.Domain.Base.Response;
 using Microsoft.AspNetCore.Authorization;
 
 namespace RetailAdminHub.API.Controllers;
@@ -27,10 +26,11 @@ public class CategoryController : ControllerBase
     /// <returns>A response containing the list of categories.</returns>
     [HttpGet]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<List<GetAllCategoryQueryResponse>>> Get()
+    public async Task<IActionResult> Get()
     {
         GetAllCategoryQueryRequest getAllCategoryQueryRequest = new GetAllCategoryQueryRequest();
-        return await mediator.Send(getAllCategoryQueryRequest);
+        var response = await mediator.Send(getAllCategoryQueryRequest);
+        return response.Success ? Ok(response.Response) : BadRequest();
     }
     /// <summary>
     /// Creates a new product category.
@@ -39,9 +39,10 @@ public class CategoryController : ControllerBase
     /// <returns>A response containing the result of the category creation.</returns>
     [HttpPost]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<CreateCategoryCommandResponse>> Post(CreateCategoryCommandRequest createCategoryCommandRequest)
+    public async Task<IActionResult> Post(CreateCategoryCommandRequest createCategoryCommandRequest)
     {
-        return await mediator.Send(createCategoryCommandRequest);
+        var response = await mediator.Send(createCategoryCommandRequest);
+        return response.Success ? Created("api/category", response.Response) : BadRequest(response.Message);
     }
     /// <summary>
     /// Retrieves a product category by its ID.
@@ -50,9 +51,10 @@ public class CategoryController : ControllerBase
     /// <returns>A response containing the category information.</returns>
     [HttpGet("{Id}")]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<GetByIdCategoryQueryResponse>> Get([FromRoute] GetByIdCategoryQueryRequest getByIdCategoryQueryRequest)
+    public async Task<IActionResult> Get([FromRoute] GetByIdCategoryQueryRequest getByIdCategoryQueryRequest)
     {
-        return await mediator.Send(getByIdCategoryQueryRequest);
+        var response = await mediator.Send(getByIdCategoryQueryRequest);
+        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
     }
     /// <summary>
     /// Updates an existing product category.
@@ -61,9 +63,11 @@ public class CategoryController : ControllerBase
     /// <returns>A response containing the result of the category update.</returns>
     [HttpPut]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<UpdateCategoryCommandResponse>> Put([FromBody] UpdateCategoryCommandRequest updateCategoryCommandRequest)
+    public async Task<IActionResult> Put([FromBody] UpdateCategoryCommandRequest updateCategoryCommandRequest)
     {
-        return await mediator.Send(updateCategoryCommandRequest);
+        var response = await mediator.Send(updateCategoryCommandRequest);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound() : BadRequest();
+
     }
     /// <summary>
     /// Removes a product category by its ID.
@@ -72,9 +76,11 @@ public class CategoryController : ControllerBase
     /// <returns>A response containing the result of the category removal.</returns>
     [HttpDelete("{Id}")]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<RemoveCategoryCommandResponse>> Delete([FromRoute] RemoveCategoryCommandRequest removeCategoryCommandRequest)
+    public async Task<IActionResult> Delete([FromRoute] RemoveCategoryCommandRequest removeCategoryCommandRequest)
     {
-        return await mediator.Send(removeCategoryCommandRequest);
+        var response = await mediator.Send(removeCategoryCommandRequest);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound() : BadRequest();
+
     }
 }
 

@@ -31,9 +31,10 @@ public class ProductController : ControllerBase
     [HttpGet]
     [HttpGet]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<GetAllProductQueryResponse>> Get([FromRoute] GetAllProductQueryRequest getAllProductQueryRequest) 
+    public async Task<IActionResult> Get([FromRoute] GetAllProductQueryRequest getAllProductQueryRequest) 
     {
-        return  await mediator.Send(getAllProductQueryRequest);
+        var response = await mediator.Send(getAllProductQueryRequest);
+        return response.Success ? Ok(response.Response) : BadRequest();
     }
     /// <summary>
     /// Retrieves a product by its ID.
@@ -41,9 +42,10 @@ public class ProductController : ControllerBase
     /// <param name="getByIdProductQueryRequest">The request to get a product by ID.</param>
     /// <returns>A response containing the product information.</returns>
     [HttpGet("{Id}")]
-    public async Task<ApiResponse<GetByIdProductQueryResponse>> Get([FromRoute] GetByIdProductQueryRequest getByIdProductQueryRequest)
+    public async Task<IActionResult> Get([FromRoute] GetByIdProductQueryRequest getByIdProductQueryRequest)
     {
-        return await mediator.Send(getByIdProductQueryRequest);
+        var response = await mediator.Send(getByIdProductQueryRequest);
+        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
     }
     /// <summary>
     /// Creates a new product.
@@ -52,9 +54,10 @@ public class ProductController : ControllerBase
     /// <returns>A response containing the result of the product creation.</returns>
     [HttpPost]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<CreateProductCommandResponse>> Post(CreateProductCommandRequest createProductCommandRequest)
+    public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
     {
-        return  await mediator.Send(createProductCommandRequest);
+        var response = await mediator.Send(createProductCommandRequest);
+        return response.Success ? Created("api/product", response.Response) : BadRequest(response.Message);
     }
     /// <summary>
     /// Updates an existing product.
@@ -63,9 +66,10 @@ public class ProductController : ControllerBase
     /// <returns>A response containing the result of the product update.</returns>
     [HttpPut]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<UpdateProductCommandResponse>> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
+    public async Task<IActionResult> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
     {
-        return await mediator.Send(updateProductCommandRequest);
+        var response = await mediator.Send(updateProductCommandRequest);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
     }
     /// <summary>
     /// Patches an existing product based on the provided ID and patch document.
@@ -74,14 +78,15 @@ public class ProductController : ControllerBase
     /// <param name="patch">The JSON patch document to apply the changes.</param>
     /// <returns>A response containing the result of the product patch.</returns>
     [HttpPatch("{id}")]
-    public async Task<ApiResponse<PatchProductCommandResponse>> Patch(string id, [FromBody] JsonPatchDocument<PatchProductCommandRequest> patch)
+    public async Task<IActionResult> Patch(string id, [FromBody] JsonPatchDocument<PatchProductCommandRequest> patch)
     {
         var command = new PatchProductCommandRequest
         {
             Id = id,
             PatchDocument = patch // Store JsonPatchDocument in PatchProductCommandRequest
         };
-        return await mediator.Send(command);
+        var response = await mediator.Send(command);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
     }
     /// <summary>
     /// Removes a product by its ID.
@@ -90,9 +95,11 @@ public class ProductController : ControllerBase
     /// <returns>A response containing the result of the product removal.</returns>
     [HttpDelete("{Id}")]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<RemoveProductCommandResponse>> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
+    public async Task<IActionResult> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
     {
-        return await mediator.Send(removeProductCommandRequest);
+        var response = await mediator.Send(removeProductCommandRequest);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
+
     }
 }
 /* Patch Method Instructions:

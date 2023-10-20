@@ -19,7 +19,7 @@ public class RemoveCategoryProductCommandHandler : IRequestHandler<RemoveCategor
         bool success = await unitOfWork.ProductWriteRepository.RemoveCategoryProductAsync(request.ProductId, request.CategoryId);
         // Check if the removal was successful
         if (!success)       
-            return new ApiResponse<RemoveCategoryProductCommandResponse>("Failed to remove CategoryProduct relation.");
+            return new ApiResponse<RemoveCategoryProductCommandResponse>("Record not found", false);//Failed to remove CategoryProduct relation.
         // Return a response indicating the successful removal of the CategoryProduct relation
         return new ApiResponse<RemoveCategoryProductCommandResponse>("CategoryProduct relation successfully removed.", true);
     }

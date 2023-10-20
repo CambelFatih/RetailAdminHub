@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RetailAdminHub.Application.Repositories.ProductRepository;
 using RetailAdminHub.Domain.Entities;
-
 using RetailAdminHub.Persistence.Contexts;
 
 namespace RetailAdminHub.Persistence.Repositories.ProductRepository;

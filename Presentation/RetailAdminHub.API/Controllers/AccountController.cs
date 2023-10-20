@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Account.CreateAccount;
 using RetailAdminHub.Application.Features.Command.Account.RemoveAccount;
@@ -28,10 +29,11 @@ public class AccountController : ControllerBase
     /// <returns>A response containing the list of accounts.</returns>
     [HttpGet]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<List<GetAllAccountQueryResponse>>> Get()
+    public async Task<IActionResult> Get()
     {
         var getAllAccountQueryRequest = new GetAllAccountQueryRequest();
-        return await mediator.Send(getAllAccountQueryRequest);
+        var response = await mediator.Send(getAllAccountQueryRequest);
+        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
     }
     /// <summary>
     /// Retrieves an account by its ID.
@@ -40,9 +42,10 @@ public class AccountController : ControllerBase
     /// <returns>A response containing the account information.</returns>
     [HttpGet("{Id}")]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<GetByIdAccountQueryResponse>> Get([FromRoute] GetByIdAccountQueryRequest getByIdAccountQueryRequest)
+    public async Task<IActionResult> Get([FromRoute] GetByIdAccountQueryRequest getByIdAccountQueryRequest)
     {
-        return await mediator.Send(getByIdAccountQueryRequest);
+        var response = await mediator.Send(getByIdAccountQueryRequest);
+        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
     }
     /// <summary>
     /// Creates a new account.
@@ -50,9 +53,12 @@ public class AccountController : ControllerBase
     /// <param name="createAccountCommandRequest">The request to create a new account.</param>
     /// <returns>A response containing the result of the account creation.</returns>
     [HttpPost]
-    public async Task<ApiResponse<CreateAccountCommandResponse>> Post(CreateAccountCommandRequest createAccountCommandRequest)
+    public async Task<IActionResult> Post(CreateAccountCommandRequest createAccountCommandRequest)
     {
-        return await mediator.Send(createAccountCommandRequest);
+        var response = await mediator.Send(createAccountCommandRequest);
+        return response.Success
+            ? Created("api/account/" + response.Response.AccountNumber, response.Response)
+            : BadRequest(response.Message);
     }
     /// <summary>
     /// Updates an existing account.
@@ -61,9 +67,11 @@ public class AccountController : ControllerBase
     /// <returns>A response containing the result of the account update.</returns>
     [HttpPut]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<UpdateAccountCommandResponse>> Put([FromBody] UpdateAccountCommandRequest updateAccountCommandRequest)
+    public async Task<IActionResult> Put([FromBody] UpdateAccountCommandRequest updateAccountCommandRequest)
     {
-        return await mediator.Send(updateAccountCommandRequest);
+        var response = await mediator.Send(updateAccountCommandRequest);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound() : BadRequest();
+
     }
     /// <summary>
     /// Removes an account by its ID.
@@ -72,9 +80,11 @@ public class AccountController : ControllerBase
     /// <returns>A response containing the result of the account removal.</returns>
     [HttpDelete("{Id}")]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<RemoveAccountCommandResponse>> Delete([FromRoute] RemoveAccountCommandRequest removeAccountCommandRequest)
+    public async Task<IActionResult> Delete([FromRoute] RemoveAccountCommandRequest removeAccountCommandRequest)
     {
-        return await mediator.Send(removeAccountCommandRequest);
+        var response = await mediator.Send(removeAccountCommandRequest);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound() : BadRequest();
+
     }
 }
 

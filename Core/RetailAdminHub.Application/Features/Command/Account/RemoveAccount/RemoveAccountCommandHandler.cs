@@ -17,6 +17,8 @@ public class RemoveAccountCommandHandler : IRequestHandler<RemoveAccountCommandR
     {
         // Call the SoftDeleteById method to mark an account for deletion (soft delete).
         var result = await unitOfWork.AccountWriteRepository.SoftDeleteById(request.Id, cancellationToken);
+        if(result==false)
+            return new ApiResponse<RemoveAccountCommandResponse>("Record not found", false);
         // Create an ApiResponse with the result of the removal operation.
         return new ApiResponse<RemoveAccountCommandResponse>(result);
     }

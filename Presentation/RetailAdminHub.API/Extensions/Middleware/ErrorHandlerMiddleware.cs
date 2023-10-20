@@ -41,7 +41,7 @@ public class ErrorHandlerMiddleware
                 $"Exception={ex.Message}"
             );
             // Create an error response with the exception message
-            ApiResponse response = new ApiResponse("An unexpected error occurred. Please try again later.");//"Internal Server Error"
+            ApiResponse response = new ApiResponse("An unexpected error occurred. Please try again later.");
              // Set the HTTP status code to 500 (Internal Server Error)
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";

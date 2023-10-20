@@ -30,9 +30,14 @@ public class CategoryProductController : ControllerBase
     /// <returns>An API response containing the result of the create operation.</returns>
     [HttpPost("Create/{ProductId}/{CategoryId}")]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<CreateCategoryProductCommandResponse>> CratePost([FromRoute] CreateCategoryProductCommandRequest createCategoryProductCommandRequest)
+    public async Task<IActionResult> CratePost([FromRoute] CreateCategoryProductCommandRequest createCategoryProductCommandRequest)
     {
-        return await mediator.Send(createCategoryProductCommandRequest);
+        var response = await mediator.Send(createCategoryProductCommandRequest);
+        if (response.Success) return NoContent();
+        if (response.Message == "Record not found") return NotFound();
+        if (response.Message == "Conflict") return Conflict();
+        return BadRequest();
+
     }
     /// <summary>
     /// Removes an existing category-product relationship.
@@ -41,9 +46,11 @@ public class CategoryProductController : ControllerBase
     /// <returns>An API response containing the result of the remove operation.</returns>
     [HttpPost("Remove/{ProductId}/{CategoryId}")]
     [Authorize(Roles = "admin")]
-    public async Task<ApiResponse<RemoveCategoryProductCommandResponse>> Post([FromRoute] RemoveCategoryProductCommandRequest removeCategoryProductCommandRequest)
+    public async Task<IActionResult> RemovePost([FromRoute] RemoveCategoryProductCommandRequest removeCategoryProductCommandRequest)
     {
-        return await mediator.Send(removeCategoryProductCommandRequest);
+        var response = await mediator.Send(removeCategoryProductCommandRequest);
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound() : BadRequest();
+
     }
 }
 

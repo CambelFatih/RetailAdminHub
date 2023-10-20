@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using RetailAdminHub.Application.Features.Command.Product.CreateProduct;
-namespace RetailAdminHub.Application.Validators.Products;
+namespace RetailAdminHub.Application.Validators.Product;
 public class CreateProductValidator : AbstractValidator<CreateProductCommandRequest>
 {
     public CreateProductValidator()
