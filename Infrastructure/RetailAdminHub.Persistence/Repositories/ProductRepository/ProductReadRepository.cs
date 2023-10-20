@@ -13,20 +13,13 @@ public class ProductReadRepository : ReadRepository<Product>, IProductReadReposi
     {
         this.context = context;
     }
-    public async Task<Product>? GetProductWithCategoriesAsync(string productId, CancellationToken cancellationToken)
-    {
-        // Check if the provided productId is a valid GUID
-        if (!Guid.TryParse(productId, out Guid parsedId))        
-            throw new InvalidGuidException();
-        
+    public async Task<Product>? GetProductWithCategoriesAsync(Guid productId, CancellationToken cancellationToken)
+    {      
         var product = await context.Products
             .Where(x => x.IsActive)
             .Include(p => p.Categories)
-            .FirstOrDefaultAsync(p => p.Id == parsedId, cancellationToken);
+            .FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
         // Check if the product was not found and throw an exception      
-        if (product == null)      
-            throw new NotFoundProductException(); // Or return a default product.
-        // You can throw an exception or return a default value.
         return product;
     }
     public async Task<List<Product>> GetProductsPagedWithCategoriesAsync(int page, int size, CancellationToken cancellationToken)

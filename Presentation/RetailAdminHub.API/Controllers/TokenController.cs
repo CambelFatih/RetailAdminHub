@@ -24,9 +24,10 @@ public class TokenController : ControllerBase
     /// <param name="createTokenCommandRequest">The request to create a new authentication token.</param>
     /// <returns>A response containing the result of the token creation.</returns>
     [HttpPost]
-    public async Task<ApiResponse<CreateTokenCommandResponse>> Post([FromBody] CreateTokenCommandRequest createTokenCommandRequest)
+    public async Task<IActionResult> Post([FromBody] CreateTokenCommandRequest createTokenCommandRequest)
     {
-        return await mediator.Send(createTokenCommandRequest);
+        var response = await mediator.Send(createTokenCommandRequest);
+        return response.Success ? Created("api/token", response.Response) : BadRequest(response.Message);
     }
     /// <summary>
     /// Endpoint for testing purposes.

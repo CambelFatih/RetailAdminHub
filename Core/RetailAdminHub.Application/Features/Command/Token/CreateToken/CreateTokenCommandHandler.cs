@@ -41,7 +41,7 @@ public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommandReque
         // Check if the user is active
         if (!entity.IsActive)
         {
-            return new ApiResponse<CreateTokenCommandResponse>("Invalid user!");
+            return new ApiResponse<CreateTokenCommandResponse>("Invalid user informations");
         }
         // Generate a JWT token for the user
         string token = Token(entity);

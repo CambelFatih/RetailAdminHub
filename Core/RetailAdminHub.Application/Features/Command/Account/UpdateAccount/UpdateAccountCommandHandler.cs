@@ -30,8 +30,6 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommandR
             category.FirstName = request.FirstName;
         if (request.LastName != null && request.LastName != "string")
             category.LastName = request.LastName;
-        if (request.Role != null && request.Role != "string")
-            category.Role = request.Role;
         // Save the updated account
         await unitOfWork.AccountWriteRepository.SaveAsync(cancellationToken);
         // Return a response indicating a successful update

@@ -28,8 +28,7 @@ public class ProductController : ControllerBase
     /// </summary>
     /// <param name="getAllProductQueryRequest">The request to get all products.</param>
     /// <returns>A response containing the list of products.</returns>
-    [HttpGet]
-    [HttpGet]
+    [HttpGet("{Page}/{Size}")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> Get([FromRoute] GetAllProductQueryRequest getAllProductQueryRequest) 
     {
@@ -57,7 +56,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
     {
         var response = await mediator.Send(createProductCommandRequest);
-        return response.Success ? Created("api/product", response.Response) : BadRequest(response.Message);
+        return response.Success ? NoContent() : BadRequest(response.Message);
     }
     /// <summary>
     /// Updates an existing product.
@@ -108,7 +107,7 @@ public class ProductController : ControllerBase
    1. To update the 'name' property:
       [
         {
-          "op": "replace",
+          "op": "replace",  //It's ok even if this line isn't there
           "path": "name",
           "value": "NVDIA 4090 GPU"
         }

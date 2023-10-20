@@ -28,6 +28,8 @@ public class CreateCategoryProductCommandHandler : IRequestHandler<CreateCategor
         {
             if (product.Categories.Any(c => c.Id == category.Id))
                 return new ApiResponse<CreateCategoryProductCommandResponse>("Conflict");//Product already has the category
+            if (category.Products.Any(p => p.Id == product.Id))
+                return new ApiResponse<CreateCategoryProductCommandResponse>("Conflict");//Product already has the category
         }
         // Associate the product with the category
         await unitOfWork.ProductWriteRepository.AddProductWithCategories(product, category, cancellationToken);

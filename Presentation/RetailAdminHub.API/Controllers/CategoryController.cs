@@ -42,7 +42,7 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> Post(CreateCategoryCommandRequest createCategoryCommandRequest)
     {
         var response = await mediator.Send(createCategoryCommandRequest);
-        return response.Success ? Created("api/category", response.Response) : BadRequest(response.Message);
+        return response.Success ? NoContent() : BadRequest(response.Message);
     }
     /// <summary>
     /// Retrieves a product category by its ID.

@@ -33,7 +33,7 @@ public class AccountController : ControllerBase
     {
         var getAllAccountQueryRequest = new GetAllAccountQueryRequest();
         var response = await mediator.Send(getAllAccountQueryRequest);
-        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
+        return response.Success ? Ok(response.Response) : BadRequest();
     }
     /// <summary>
     /// Retrieves an account by its ID.
@@ -56,9 +56,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Post(CreateAccountCommandRequest createAccountCommandRequest)
     {
         var response = await mediator.Send(createAccountCommandRequest);
-        return response.Success
-            ? Created("api/account/" + response.Response.AccountNumber, response.Response)
-            : BadRequest(response.Message);
+        return response.Success ? Created("api/account", response.Response) : BadRequest(response.Message);
     }
     /// <summary>
     /// Updates an existing account.
