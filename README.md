@@ -197,6 +197,23 @@ These patterns have been employed in the project's design.
 
 ## Swagger UI 
 ![SwaggerUI](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b86fbee3-d2af-4b40-9fa3-06e6cda37dc5)
+
+![CreateAccount](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b2e5d981-a988-4d05-a441-458904381b63)
+![CreateToken](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/e804b789-ae6f-4384-b46c-c2d468c6b66b)
+![GetAllAccount](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b5f9b08d-4171-4bd6-85fc-14f23846e6ff)
+![CreateProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/b35193f6-2b49-4a2a-adde-9e2bf0872b7f)
+![CreateCategory](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/3483b8b6-a340-47da-b012-fd347619e266)
+![CreateCategoryProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/19c6d08f-b21f-4314-b625-cedf7ccd5cc7)
+![GetByIdAccount](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/73bee9a5-e425-449c-9d3e-88681bb2c803)
+![CategoryGetById](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/96bd569a-2d39-448d-bc09-6a48bbc3fde6)
+![ProductGetByIdNotFound](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/d98c921d-8ba9-4a56-9007-953bcc8f6447)
+![ProductGetById](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/22e0029c-379b-47e9-a6b0-8d3a859f98a4)
+![PatchProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/6d07d622-4c47-42f7-b32c-624ca79aff1d)
+![GetAllProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/cf39525e-c65f-448b-bbea-a0b8578ff6df)
+![GetAllCategory](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/0f695a61-eaa9-4813-8d29-902de465cd7a)
+![DeleteProduct](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/37b0a962-e231-4a8b-beb2-09d370616d02)
+
+# The project screenshots below are out of date.
 ## Added Account
 ![AccountPost](https://github.com/CambelFatih/RetailAdminHub/assets/79880394/bf3eddc1-70d2-412f-8b14-748bffcaeef7)
 ## Take a Token 
