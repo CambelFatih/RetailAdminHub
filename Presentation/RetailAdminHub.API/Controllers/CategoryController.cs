@@ -54,7 +54,7 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> Get([FromRoute] GetByIdCategoryQueryRequest getByIdCategoryQueryRequest)
     {
         var response = await mediator.Send(getByIdCategoryQueryRequest);
-        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
+        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound() : BadRequest();
     }
     /// <summary>
     /// Updates an existing product category.

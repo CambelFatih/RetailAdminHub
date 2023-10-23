@@ -85,7 +85,7 @@ public class ProductController : ControllerBase
             PatchDocument = patch // Store JsonPatchDocument in PatchProductCommandRequest
         };
         var response = await mediator.Send(command);
-        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound() : BadRequest();
     }
     /// <summary>
     /// Removes a product by its ID.
@@ -97,7 +97,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
     {
         var response = await mediator.Send(removeProductCommandRequest);
-        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
+        return response.Success ? NoContent() : response.Message == "Record not found" ? NotFound() : BadRequest();
 
     }
 }

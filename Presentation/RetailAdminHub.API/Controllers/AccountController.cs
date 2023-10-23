@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RetailAdminHub.Application.Features.Command.Account.CreateAccount;
 using RetailAdminHub.Application.Features.Command.Account.RemoveAccount;
 using RetailAdminHub.Application.Features.Command.Account.UpdateAccount;
 using RetailAdminHub.Application.Features.Queries.Account.GetAllAccount;
 using RetailAdminHub.Application.Features.Queries.Account.GetByIdAccount;
-using RetailAdminHub.Domain.Base.Response;
 
 namespace RetailAdminHub.API.Controllers;
 /// <summary>
@@ -45,7 +43,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Get([FromRoute] GetByIdAccountQueryRequest getByIdAccountQueryRequest)
     {
         var response = await mediator.Send(getByIdAccountQueryRequest);
-        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound(response.Message) : BadRequest();
+        return response.Success ? Ok(response.Response) : response.Message == "Record not found" ? NotFound() : BadRequest();
     }
     /// <summary>
     /// Creates a new account.
@@ -56,7 +54,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Post(CreateAccountCommandRequest createAccountCommandRequest)
     {
         var response = await mediator.Send(createAccountCommandRequest);
-        return response.Success ? Created("api/account", response.Response) : BadRequest(response.Message);
+        return response.Success ? Created("api/account", response.Response) : BadRequest();
     }
     /// <summary>
     /// Updates an existing account.

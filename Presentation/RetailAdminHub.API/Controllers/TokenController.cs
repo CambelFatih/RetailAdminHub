@@ -27,7 +27,7 @@ public class TokenController : ControllerBase
     public async Task<IActionResult> Post([FromBody] CreateTokenCommandRequest createTokenCommandRequest)
     {
         var response = await mediator.Send(createTokenCommandRequest);
-        return response.Success ? Created("api/token", response.Response) : BadRequest(response.Message);
+        return response.Success ? Created("api/token", response.Response) : response.Message == "Invalid user informations" ? ValidationProblem(response.Message) : BadRequest();
     }
     /// <summary>
     /// Endpoint for testing purposes.
